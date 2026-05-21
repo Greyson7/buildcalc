@@ -11,20 +11,24 @@ const inter = Inter({
   display: 'swap',
 });
 
+// Next does not prefix basePath onto metadata icon/manifest hrefs, so do it
+// here. Empty in local dev; "/buildcalc" for the GitHub Pages build.
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 export const metadata: Metadata = {
   title: 'BuildCalc — Construction Calculator',
   description:
     'Offline-first stair, concrete and imperial calculators. A fast, modern job-site tool — not a skeuomorphic button grid.',
   applicationName: 'BuildCalc',
-  manifest: '/manifest.webmanifest',
+  manifest: `${basePath}/manifest.webmanifest`,
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
     title: 'BuildCalc',
   },
   icons: {
-    icon: '/favicon.png',
-    apple: '/apple-touch-icon.png',
+    icon: `${basePath}/favicon.png`,
+    apple: `${basePath}/apple-touch-icon.png`,
   },
   formatDetection: { telephone: false },
 };
