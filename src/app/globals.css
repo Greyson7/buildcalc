@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --nav-h: 66px;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  @apply bg-surface-0 text-ink font-sans antialiased;
+  /* Native-app feel: kill double-tap zoom, the tap flash and stray selection. */
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-user-select: none;
+  user-select: none;
+  overscroll-behavior-y: none;
+}
+
+/* Result values stay copyable even though the rest of the UI is not. */
+.selectable {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+/* Remove native number-input spinners — the app uses custom controls. */
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type='number'] {
+  -moz-appearance: textfield;
+}
+
+::selection {
+  background: rgba(255, 122, 26, 0.35);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a3340;
+  border-radius: 999px;
+}
+
+/* Hide scrollbars on horizontal chip rows. */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Chunky, touch-friendly range slider. */
+input[type='range'].range {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 44px;
+  background: transparent;
+  cursor: pointer;
+}
+input[type='range'].range::-webkit-slider-runnable-track {
+  height: 8px;
+  border-radius: 999px;
+  background: #252d3a;
+}
+input[type='range'].range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  margin-top: -10px;
+  height: 28px;
+  width: 28px;
+  border-radius: 999px;
+  background: #ff7a1a;
+  border: 3px solid #0c0f14;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+}
+input[type='range'].range::-moz-range-track {
+  height: 8px;
+  border-radius: 999px;
+  background: #252d3a;
+}
+input[type='range'].range::-moz-range-thumb {
+  height: 28px;
+  width: 28px;
+  border: 3px solid #0c0f14;
+  border-radius: 999px;
+  background: #ff7a1a;
+}
+
+@layer components {
+  .card {
+    @apply rounded-card border border-line bg-surface-1;
+  }
+  .field-label {
+    @apply text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-dim;
+  }
+  /* Touch-first interactive base: 48px target, press feedback, no hover dependency. */
+  .tap {
+    @apply min-h-touch select-none transition-transform duration-100 active:scale-[0.97];
+  }
+}

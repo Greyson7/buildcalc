@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit Converter &amp; Calculator — Customary &amp; Metric</title>
+<style>
+  :root {
+    --bg: #0f172a;
+    --panel: #1e293b;
+    --panel-2: #273449;
+    --accent: #38bdf8;
+    --accent-2: #0ea5e9;
+    --text: #e2e8f0;
+    --muted: #94a3b8;
+    --border: #334155;
+    --danger: #f87171;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+  }
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    width: 100%;
+    max-width: 480px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.45);
+  }
+  h1 {
+    font-size: 1.4rem;
+    margin-bottom: 4px;
+  }
+  .subtitle {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 18px;
+  }
+  /* Segmented mode switch */
+  .mode-tabs {
+    display: flex;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 4px;
+    margin-bottom: 18px;
+  }
+  .mode-tab {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--muted);
+    padding: 9px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.15s ease;
+  }
+  .mode-tab.active {
+    background: var(--accent);
+    color: #06283d;
+    font-weight: 600;
+  }
+  .categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 22px;
+  }
+  .cat-btn {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--muted);
+    padding: 7px 13px;
+    border-radius: 999px;
+    cursor: pointer;
+    font-size: 0.82rem;
+    transition: all 0.15s ease;
+  }
+  .cat-btn:hover { color: var(--text); border-color: var(--accent); }
+  .cat-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #06283d;
+    font-weight: 600;
+  }
+  .cat-btn.disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+  }
+  .cat-btn.disabled:hover { color: var(--muted); border-color: var(--border); }
+  .row {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+  .field {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  label {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+  }
+  input, select {
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 11px 12px;
+    border-radius: 9px;
+    font-size: 1rem;
+    width: 100%;
+    outline: none;
+    transition: border-color 0.15s ease;
+  }
+  input:focus, select:focus { border-color: var(--accent); }
+  input[type=number]::-webkit-inner-spin-button { opacity: 0.4; }
+  input:disabled, select:disabled { opacity: 0.45; }
+  .swap {
+    background: var(--accent-2);
+    border: none;
+    color: #06283d;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.1rem;
+    flex-shrink: 0;
+    align-self: flex-end;
+    transition: transform 0.2s ease, background 0.15s ease;
+  }
+  .swap:hover { background: var(--accent); transform: rotate(180deg); }
+  /* Operator segmented control */
+  .operators {
+    display: flex;
+    gap: 8px;
+    margin: 4px 0 12px;
+  }
+  .op-btn {
+    flex: 1;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 10px;
+    border-radius: 9px;
+    cursor: pointer;
+    font-size: 1.15rem;
+    transition: all 0.15s ease;
+  }
+  .op-btn:hover { border-color: var(--accent); }
+  .op-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #06283d;
+    font-weight: 700;
+  }
+  .result {
+    margin-top: 22px;
+    padding: 18px;
+    background: var(--panel-2);
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    text-align: center;
+  }
+  .result .value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--accent);
+    word-break: break-word;
+  }
+  .result .value.error { color: var(--danger); font-size: 1.1rem; }
+  .result .formula {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 6px;
+    word-break: break-word;
+  }
+  .hidden { display: none !important; }
+  footer {
+    margin-top: 18px;
+    text-align: center;
+    font-size: 0.72rem;
+    color: var(--muted);
+  }
+</style>
+</head>
+<body>
+<div class="card">
+  <h1>Unit Converter</h1>
+  <p class="subtitle">U.S. customary &harr; metric &mdash; convert &amp; calculate</p>
+
+  <div class="mode-tabs">
+    <button class="mode-tab active" data-mode="convert">Convert</button>
+    <button class="mode-tab" data-mode="calculate">Calculate</button>
+  </div>
+
+  <div class="categories" id="categories"></div>
+
+  <!-- ===== CONVERT MODE ===== -->
+  <div id="convertPanel">
+    <div class="row">
+      <div class="field">
+        <label for="fromValue">From</label>
+        <input type="number" id="fromValue" value="1" step="any">
+      </div>
+      <div class="field">
+        <label for="fromUnit">&nbsp;</label>
+        <select id="fromUnit"></select>
+      </div>
+    </div>
+
+    <div class="row">
+      <button class="swap" id="swap" title="Swap units">&#8645;</button>
+      <div style="flex:1;"></div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="toValue">To</label>
+        <input type="number" id="toValue" readonly>
+      </div>
+      <div class="field">
+        <label for="toUnit">&nbsp;</label>
+        <select id="toUnit"></select>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== CALCULATE MODE ===== -->
+  <div id="calcPanel" class="hidden">
+    <div class="row">
+      <div class="field">
+        <label for="calcValueA">First measurement</label>
+        <input type="number" id="calcValueA" value="1" step="any">
+      </div>
+      <div class="field">
+        <label for="calcUnitA">&nbsp;</label>
+        <select id="calcUnitA"></select>
+      </div>
+    </div>
+
+    <div class="operators" id="operators">
+      <button class="op-btn active" data-op="+">+</button>
+      <button class="op-btn" data-op="-">&minus;</button>
+      <button class="op-btn" data-op="*">&times;</button>
+      <button class="op-btn" data-op="/">&divide;</button>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="calcValueB" id="calcLabelB">Second measurement</label>
+        <input type="number" id="calcValueB" value="1" step="any">
+      </div>
+      <div class="field">
+        <label for="calcUnitB">&nbsp;</label>
+        <select id="calcUnitB"></select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label for="calcResultUnit">Show result in</label>
+        <select id="calcResultUnit"></select>
+      </div>
+    </div>
+  </div>
+
+  <!-- shared result panel -->
+  <div class="result">
+    <div class="value" id="resultValue">&mdash;</div>
+    <div class="formula" id="resultFormula"></div>
+  </div>
+
+  <footer id="footer">Type a value &mdash; updates instantly.</footer>
+</div>
+
+<script>
+/*
+ * Each category converts through a base unit.
+ * A unit's "factor" is how many base units it equals.
+ * Temperature is special-cased with to/from base functions.
+ */
+const CATEGORIES = {
+  Length: {
+    base: "meter",
+    units: {
+      "Inch (in)":        0.0254,
+      "Foot (ft)":        0.3048,
+      "Yard (yd)":        0.9144,
+      "Mile (mi)":        1609.344,
+      "Millimeter (mm)":  0.001,
+      "Centimeter (cm)":  0.01,
+      "Meter (m)":        1,
+      "Kilometer (km)":   1000
+    }
+  },
+  Mass: {
+    base: "gram",
+    units: {
+      "Ounce (oz)":       28.349523125,
+      "Pound (lb)":       453.59237,
+      "Short ton (US)":   907184.74,
+      "Milligram (mg)":   0.001,
+      "Gram (g)":         1,
+      "Kilogram (kg)":    1000,
+      "Tonne (t)":        1000000
+    }
+  },
+  Volume: {
+    base: "liter",
+    units: {
+      "Fluid ounce (US)": 0.0295735295625,
+      "Cup (US)":         0.2365882365,
+      "Pint (US)":        0.473176473,
+      "Quart (US)":       0.946352946,
+      "Gallon (US)":      3.785411784,
+      "Milliliter (mL)":  0.001,
+      "Liter (L)":        1
+    }
+  },
+  Area: {
+    base: "square meter",
+    units: {
+      "Square inch (in²)":  0.00064516,
+      "Square foot (ft²)":  0.09290304,
+      "Square yard (yd²)":  0.83612736,
+      "Acre":               4046.8564224,
+      "Square mile (mi²)":  2589988.110336,
+      "Square cm (cm²)":    0.0001,
+      "Square meter (m²)":  1,
+      "Hectare (ha)":       10000,
+      "Square km (km²)":    1000000
+    }
+  },
+  Speed: {
+    base: "meters per second",
+    units: {
+      "Miles per hour (mph)": 0.44704,
+      "Feet per second (ft/s)": 0.3048,
+      "Knot (kn)":            0.514444,
+      "Kilometers per hour (km/h)": 0.277777778,
+      "Meters per second (m/s)": 1
+    }
+  },
+  Temperature: {
+    base: "celsius",
+    units: {
+      "Fahrenheit (°F)": "F",
+      "Celsius (°C)":    "C",
+      "Kelvin (K)":      "K"
+    },
+    temperature: true
+  }
+};
+
+const TEMP_TO_C = {
+  F: v => (v - 32) * 5 / 9,
+  C: v => v,
+  K: v => v - 273.15
+};
+const TEMP_FROM_C = {
+  F: v => v * 9 / 5 + 32,
+  C: v => v,
+  K: v => v + 273.15
+};
+
+let currentMode = "convert";
+let currentCategory = "Length";
+let currentOp = "+";
+
+const el = id => document.getElementById(id);
+const catContainer  = el("categories");
+const convertPanel  = el("convertPanel");
+const calcPanel     = el("calcPanel");
+const footer        = el("footer");
+
+// Convert-mode elements
+const fromValueEl = el("fromValue");
+const toValueEl   = el("toValue");
+const fromUnitEl  = el("fromUnit");
+const toUnitEl    = el("toUnit");
+
+// Calculate-mode elements
+const calcValueA    = el("calcValueA");
+const calcUnitA     = el("calcUnitA");
+const calcValueB    = el("calcValueB");
+const calcUnitB     = el("calcUnitB");
+const calcLabelB    = el("calcLabelB");
+const calcResultUnit= el("calcResultUnit");
+
+const resultValueEl = el("resultValue");
+const resultFormula = el("resultFormula");
+
+/* ---------- setup ---------- */
+
+function buildCategories() {
+  Object.keys(CATEGORIES).forEach(name => {
+    const btn = document.createElement("button");
+    btn.className = "cat-btn";
+    btn.dataset.name = name;
+    btn.textContent = name;
+    btn.addEventListener("click", () => {
+      if (btn.classList.contains("disabled")) return;
+      currentCategory = name;
+      refreshCategoryButtons();
+      populateAllUnits();
+      recalculate();
+    });
+    catContainer.appendChild(btn);
+  });
+  refreshCategoryButtons();
+}
+
+function refreshCategoryButtons() {
+  document.querySelectorAll(".cat-btn").forEach(b => {
+    const name = b.dataset.name;
+    const isTemp = CATEGORIES[name].temperature;
+    // Temperature arithmetic is ambiguous (offset scales) — disable it in Calculate mode.
+    b.classList.toggle("disabled", currentMode === "calculate" && isTemp);
+    b.classList.toggle("active", name === currentCategory);
+  });
+}
+
+function fillSelect(sel, keepValue) {
+  const units = Object.keys(CATEGORIES[currentCategory].units);
+  const prev = keepValue ? sel.value : null;
+  sel.innerHTML = "";
+  units.forEach(u => {
+    const opt = document.createElement("option");
+    opt.value = u;
+    opt.textContent = u;
+    sel.appendChild(opt);
+  });
+  if (prev && units.includes(prev)) sel.value = prev;
+  return units;
+}
+
+function populateAllUnits() {
+  const units = fillSelect(fromUnitEl, false);
+  fillSelect(toUnitEl, false);
+  fromUnitEl.selectedIndex = 0;
+  toUnitEl.selectedIndex = units.length - 1;
+
+  fillSelect(calcUnitA, false);
+  fillSelect(calcUnitB, false);
+  fillSelect(calcResultUnit, false);
+  calcUnitA.selectedIndex = 0;
+  calcUnitB.selectedIndex = 0;
+  calcResultUnit.selectedIndex = 0;
+}
+
+/* ---------- formatting ---------- */
+
+function formatNumber(n) {
+  if (!isFinite(n)) return "—";
+  if (n === 0) return "0";
+  const abs = Math.abs(n);
+  if (abs >= 1e9 || abs < 1e-6) return n.toExponential(6).replace(/\.?0+e/, "e");
+  return parseFloat(n.toPrecision(8)).toString();
+}
+
+// Pull the abbreviation in parentheses, else use the full label.
+function stripName(label) {
+  const m = label.match(/\(([^)]+)\)/);
+  return m ? m[1] : label;
+}
+
+/* ---------- convert mode ---------- */
+
+function convert() {
+  const cat = CATEGORIES[currentCategory];
+  const input = parseFloat(fromValueEl.value);
+  const fromU = fromUnitEl.value;
+  const toU   = toUnitEl.value;
+
+  if (isNaN(input)) {
+    toValueEl.value = "";
+    resultValueEl.textContent = "—";
+    resultValueEl.classList.remove("error");
+    resultFormula.textContent = "Enter a number to convert.";
+    return;
+  }
+
+  let output;
+  if (cat.temperature) {
+    const c = TEMP_TO_C[cat.units[fromU]](input);
+    output = TEMP_FROM_C[cat.units[toU]](c);
+  } else {
+    output = (input * cat.units[fromU]) / cat.units[toU];
+  }
+
+  toValueEl.value = formatNumber(output);
+  resultValueEl.classList.remove("error");
+  resultValueEl.textContent = formatNumber(output) + " " + stripName(toU);
+  resultFormula.textContent =
+    formatNumber(input) + " " + stripName(fromU) + "  =  " +
+    formatNumber(output) + " " + stripName(toU);
+}
+
+/* ---------- calculate mode ---------- */
+
+function showError(msg) {
+  resultValueEl.classList.add("error");
+  resultValueEl.textContent = msg;
+  resultFormula.textContent = "";
+}
+
+function calculate() {
+  const cat   = CATEGORIES[currentCategory];
+  const units = cat.units;
+  const a     = parseFloat(calcValueA.value);
+  const b     = parseFloat(calcValueB.value);
+  const unitA = calcUnitA.value;
+  const unitB = calcUnitB.value;
+  const resU  = calcResultUnit.value;
+  const scalarOp = (currentOp === "*" || currentOp === "/");
+
+  if (isNaN(a) || isNaN(b)) {
+    resultValueEl.classList.remove("error");
+    resultValueEl.textContent = "—";
+    resultFormula.textContent = "Enter both numbers to calculate.";
+    return;
+  }
+
+  let output, formula;
+  const opSym = { "+": "+", "-": "−", "*": "×", "/": "÷" }[currentOp];
+
+  if (scalarOp) {
+    // measurement  ×|÷  plain number  →  measurement (same unit family)
+    if (currentOp === "/" && b === 0) { showError("Cannot divide by zero"); return; }
+    const baseA = a * units[unitA];
+    const baseR = currentOp === "*" ? baseA * b : baseA / b;
+    output = baseR / units[resU];
+    formula = formatNumber(a) + " " + stripName(unitA) + " " + opSym + " " +
+              formatNumber(b) + "  =  " + formatNumber(output) + " " + stripName(resU);
+  } else {
+    // measurement  +|−  measurement  (units may differ) → measurement
+    const baseA = a * units[unitA];
+    const baseB = b * units[unitB];
+    const baseR = currentOp === "+" ? baseA + baseB : baseA - baseB;
+    output = baseR / units[resU];
+    formula = formatNumber(a) + " " + stripName(unitA) + " " + opSym + " " +
+              formatNumber(b) + " " + stripName(unitB) + "  =  " +
+              formatNumber(output) + " " + stripName(resU);
+  }
+
+  resultValueEl.classList.remove("error");
+  resultValueEl.textContent = formatNumber(output) + " " + stripName(resU);
+  resultFormula.textContent = formula;
+}
+
+/* ---------- mode / op switching ---------- */
+
+function applyOpUI() {
+  const scalarOp = (currentOp === "*" || currentOp === "/");
+  // For × and ÷, the second operand is a plain number, not a measurement.
+  calcUnitB.classList.toggle("hidden", scalarOp);
+  calcLabelB.textContent = scalarOp ? "Multiply / divide by" : "Second measurement";
+}
+
+function setMode(mode) {
+  currentMode = mode;
+  document.querySelectorAll(".mode-tab").forEach(t =>
+    t.classList.toggle("active", t.dataset.mode === mode));
+  convertPanel.classList.toggle("hidden", mode !== "convert");
+  calcPanel.classList.toggle("hidden", mode !== "calculate");
+
+  // Temperature has no meaningful arithmetic — bounce to Length if needed.
+  if (mode === "calculate" && CATEGORIES[currentCategory].temperature) {
+    currentCategory = "Length";
+    populateAllUnits();
+  }
+  refreshCategoryButtons();
+  footer.textContent = mode === "convert"
+    ? "Type a value — conversion updates instantly."
+    : "Combine measurements — units may differ; × and ÷ use a plain number.";
+  recalculate();
+}
+
+function recalculate() {
+  if (currentMode === "convert") convert();
+  else calculate();
+}
+
+/* ---------- events ---------- */
+
+document.querySelectorAll(".mode-tab").forEach(tab =>
+  tab.addEventListener("click", () => setMode(tab.dataset.mode)));
+
+document.querySelectorAll(".op-btn").forEach(btn =>
+  btn.addEventListener("click", () => {
+    currentOp = btn.dataset.op;
+    document.querySelectorAll(".op-btn").forEach(b =>
+      b.classList.toggle("active", b === btn));
+    applyOpUI();
+    calculate();
+  }));
+
+el("swap").addEventListener("click", () => {
+  const fu = fromUnitEl.value;
+  fromUnitEl.value = toUnitEl.value;
+  toUnitEl.value = fu;
+  if (toValueEl.value !== "") fromValueEl.value = toValueEl.value;
+  convert();
+});
+
+[fromValueEl, fromUnitEl, toUnitEl].forEach(e => e.addEventListener("input", convert));
+[calcValueA, calcUnitA, calcValueB, calcUnitB, calcResultUnit].forEach(e =>
+  e.addEventListener("input", calculate));
+
+/* ---------- init ---------- */
+
+buildCategories();
+populateAllUnits();
+applyOpUI();
+convert();
+</script>
+</body>
+</html>

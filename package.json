@@ -1,0 +1,30 @@
+{
+  "name": "buildcalc",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Offline-first stair, concrete and imperial construction calculators for the job site.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "icons": "node scripts/gen-icons.mjs"
+  },
+  "dependencies": {
+    "framer-motion": "^12.40.0",
+    "next": "^15.5.18",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
+    "zustand": "5.0.3"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.7",
+    "@types/react": "19.0.7",
+    "@types/react-dom": "19.0.3",
+    "autoprefixer": "10.4.20",
+    "postcss": "8.5.1",
+    "sharp": "0.33.5",
+    "tailwindcss": "3.4.17",
+    "typescript": "5.7.3"
+  }
+}
