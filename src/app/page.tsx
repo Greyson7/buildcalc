@@ -45,10 +45,10 @@ const FEATURES = [
   ['Code-aware', 'IRC checks'],
 ];
 
-// A Google Form URL or a mailto: — override with NEXT_PUBLIC_FEEDBACK_URL.
+// Feedback goes to a Google Form — override with NEXT_PUBLIC_FEEDBACK_URL.
 const FEEDBACK_URL =
   process.env.NEXT_PUBLIC_FEEDBACK_URL ||
-  'mailto:greyson.goodwin12@gmail.com?subject=BuildCalc%20Feedback';
+  'https://docs.google.com/forms/d/e/1FAIpQLScB5YuDw075VGzb7RbP-MIMIKO97c5_oOo2ZvtucJyH_-twFw/viewform';
 
 export default function HomePage() {
   const feedbackExternal = !FEEDBACK_URL.startsWith('mailto:');

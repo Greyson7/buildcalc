@@ -1,5 +1,7 @@
 # BuildCalc
 
+**Live: https://buildprocalc.com**
+
 A modern, offline-first **builder & construction calculator** — stair layouts,
 concrete volume, and a precise imperial (feet / inches / fraction) input system.
 Built as a mobile-first PWA that also wraps cleanly into a native iOS/Android
@@ -45,32 +47,21 @@ Build-time environment variables — see [`.env.example`](.env.example):
 
 ## Deploy
 
-The static export is published to GitHub Pages from the `gh-pages` branch.
-
-**GitHub Pages project site** (current — `greyson7.github.io/buildcalc/`):
-
-```bash
-# Windows PowerShell
-$env:NEXT_PUBLIC_BASE_PATH = '/buildcalc'
-$env:NEXT_PUBLIC_SITE_URL  = 'https://greyson7.github.io/buildcalc'
-npm run build
-# then push ./out to the gh-pages branch
-```
-
-**Custom domain** (when one is attached): build with an **empty** base path,
-point `NEXT_PUBLIC_SITE_URL` at the domain, and add a `CNAME` file containing
-the domain to `out/` before publishing:
+The static export is published to GitHub Pages from the `gh-pages` branch and
+served at the custom domain **buildprocalc.com** (apex). `public/CNAME` keeps
+the domain bound, and the in-code defaults are production-correct, so:
 
 ```bash
-$env:NEXT_PUBLIC_BASE_PATH = ''
-$env:NEXT_PUBLIC_SITE_URL  = 'https://your-domain.com'
-npm run build
-'your-domain.com' | Out-File -Encoding ascii out/CNAME
+npm run build              # production build -> ./out
+# then publish ./out to the gh-pages branch
 ```
+
+DNS: the apex `A` records point at GitHub Pages (185.199.108–111.153,
+Cloudflare proxy off) and `www` is a `CNAME` to `greyson7.github.io`.
 
 The service worker derives its scope from its own URL and the web manifest
-uses relative paths, so both work at a subpath **or** a domain root with no
-code changes.
+uses relative paths, so the same build also works at a subpath if
+`NEXT_PUBLIC_BASE_PATH` is ever set.
 
 ## Capacitor (native roadmap)
 

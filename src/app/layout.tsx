@@ -16,10 +16,10 @@ const inter = Inter({
 // here. Empty in local dev; "/buildcalc" for the GitHub Pages build.
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
-// Canonical origin for metadata. Point NEXT_PUBLIC_SITE_URL at the custom
-// domain when one is attached; the GitHub Pages URL is the default.
+// Canonical origin for metadata. Defaults to the production domain;
+// override with NEXT_PUBLIC_SITE_URL for staging builds.
 const siteUrl =
-  process.env.NEXT_PUBLIC_SITE_URL || 'https://greyson7.github.io/buildcalc';
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://buildprocalc.com';
 
 const description =
   'Offline-first stair, concrete and imperial calculators. A fast, modern job-site tool — not a skeuomorphic button grid.';

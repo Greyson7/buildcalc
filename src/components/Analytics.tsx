@@ -12,7 +12,9 @@ import Script from 'next/script';
  * never affect the app.
  */
 export function Analytics() {
-  const domain = process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN;
+  // Defaults to the production domain; override (or set empty) via env.
+  const domain =
+    process.env.NEXT_PUBLIC_PLAUSIBLE_DOMAIN ?? 'buildprocalc.com';
   if (!domain) return null;
 
   return (
