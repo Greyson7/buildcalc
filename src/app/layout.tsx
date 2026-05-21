@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
+import { Analytics } from '@/components/Analytics';
 import { AppHeader } from '@/components/AppHeader';
 import { BottomNav } from '@/components/BottomNav';
 import { ClientBoot } from '@/components/ClientBoot';
@@ -15,16 +16,32 @@ const inter = Inter({
 // here. Empty in local dev; "/buildcalc" for the GitHub Pages build.
 const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
+// Canonical origin for metadata. Point NEXT_PUBLIC_SITE_URL at the custom
+// domain when one is attached; the GitHub Pages URL is the default.
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL || 'https://greyson7.github.io/buildcalc';
+
+const description =
+  'Offline-first stair, concrete and imperial calculators. A fast, modern job-site tool — not a skeuomorphic button grid.';
+
 export const metadata: Metadata = {
+  metadataBase: new URL(siteUrl),
   title: 'BuildCalc — Construction Calculator',
-  description:
-    'Offline-first stair, concrete and imperial calculators. A fast, modern job-site tool — not a skeuomorphic button grid.',
+  description,
   applicationName: 'BuildCalc',
   manifest: `${basePath}/manifest.webmanifest`,
+  alternates: { canonical: '/' },
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
     title: 'BuildCalc',
+  },
+  openGraph: {
+    type: 'website',
+    siteName: 'BuildCalc',
+    title: 'BuildCalc — Construction Calculator',
+    description,
+    url: '/',
   },
   icons: {
     icon: `${basePath}/favicon.png`,
@@ -53,6 +70,7 @@ export default function RootLayout({
     <html lang="en" className={`dark ${inter.variable}`}>
       <body className="min-h-[100dvh]">
         <ClientBoot />
+        <Analytics />
         <AppHeader />
         <main
           className="mx-auto w-full max-w-3xl px-4 pt-4"

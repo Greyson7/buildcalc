@@ -160,3 +160,51 @@ export function LevelIcon({ className }: IconProps) {
     </svg>
   );
 }
+
+// --- Roadmap module icons -------------------------------------------------
+
+export function RoofIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...stroke}>
+      <path d="M2 14L12 5l10 9" />
+      <path d="M6 13.5L12 8l6 5.5" />
+    </svg>
+  );
+}
+
+export function DeckIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...stroke}>
+      <rect x="3" y="5" width="18" height="14" rx="1.5" />
+      <path d="M3 10h18M3 14h18" />
+    </svg>
+  );
+}
+
+// --- UI glyphs ------------------------------------------------------------
+
+export function CloseIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...stroke}>
+      <path d="M6 6l12 12M18 6L6 18" />
+    </svg>
+  );
+}
+
+export function ChatIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...stroke}>
+      <path d="M4 5h16v11H9l-4 4V5z" />
+      <path d="M8 9.5h8M8 12.5h5" />
+    </svg>
+  );
+}
+
+export function ShareIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...stroke}>
+      <path d="M12 14V4M8.5 7.5L12 4l3.5 3.5" />
+      <path d="M6 12v7a1 1 0 001 1h10a1 1 0 001-1v-7" />
+    </svg>
+  );
+}

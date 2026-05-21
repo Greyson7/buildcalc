@@ -32,20 +32,45 @@ npm run dev         # http://localhost:3000
 npm run build       # static site -> ./out
 ```
 
+## Configuration
+
+Build-time environment variables — see [`.env.example`](.env.example):
+
+| Variable | Purpose |
+| --- | --- |
+| `NEXT_PUBLIC_BASE_PATH` | `/buildcalc` for a Pages project site; empty for a domain root |
+| `NEXT_PUBLIC_SITE_URL` | Canonical URL for `<link canonical>` / Open Graph |
+| `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | Enables deferred, cookieless analytics when set |
+| `NEXT_PUBLIC_FEEDBACK_URL` | Google Form URL or `mailto:` for the feedback link |
+
 ## Deploy
 
-The static export is published to GitHub Pages from the `gh-pages` branch:
+The static export is published to GitHub Pages from the `gh-pages` branch.
+
+**GitHub Pages project site** (current — `greyson7.github.io/buildcalc/`):
 
 ```bash
-# Linux/macOS
-NEXT_PUBLIC_BASE_PATH=/buildcalc npm run build
 # Windows PowerShell
-$env:NEXT_PUBLIC_BASE_PATH = '/buildcalc'; npm run build
+$env:NEXT_PUBLIC_BASE_PATH = '/buildcalc'
+$env:NEXT_PUBLIC_SITE_URL  = 'https://greyson7.github.io/buildcalc'
+npm run build
+# then push ./out to the gh-pages branch
 ```
 
-`NEXT_PUBLIC_BASE_PATH` is set to the repo name so asset URLs resolve under
-the project Pages path. The contents of `out/` are then pushed to the
-`gh-pages` branch, which Pages serves.
+**Custom domain** (when one is attached): build with an **empty** base path,
+point `NEXT_PUBLIC_SITE_URL` at the domain, and add a `CNAME` file containing
+the domain to `out/` before publishing:
+
+```bash
+$env:NEXT_PUBLIC_BASE_PATH = ''
+$env:NEXT_PUBLIC_SITE_URL  = 'https://your-domain.com'
+npm run build
+'your-domain.com' | Out-File -Encoding ascii out/CNAME
+```
+
+The service worker derives its scope from its own URL and the web manifest
+uses relative paths, so both work at a subpath **or** a domain root with no
+code changes.
 
 ## Capacitor (native roadmap)
 

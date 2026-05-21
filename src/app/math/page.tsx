@@ -1,6 +1,6 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { formatFeetInches } from '@/lib/imperial';
 import {
   CONVERSIONS,
@@ -8,11 +8,15 @@ import {
   computeDimensional,
   type Operator,
 } from '@/lib/quickmath';
+import { trackCalculate, trackFirstModule } from '@/lib/analytics';
 import { ActionCard } from '@/components/ActionCard';
 import { LevelIcon, SquareIcon, TapeIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
 import { FractionalInput } from '@/components/ui/FractionalInput';
 import { Segmented } from '@/components/ui/Segmented';
+
+const INPUT_HELP =
+  'Enter whole feet and inches with the number pad, then tap a fraction chip for the 1/16" part. Example: 5\' 4-3/8" is 5 ft, 4 in, then the 3/8 chip.';
 
 const MATH_TOOLS = [
   {
@@ -51,6 +55,8 @@ function trimNum(n: number, decimals: number): string {
 }
 
 export default function QuickMathPage() {
+  useEffect(() => trackFirstModule('Quick Math'), []);
+
   return (
     <div>
       <header>
@@ -66,7 +72,7 @@ export default function QuickMathPage() {
       </div>
 
       <div className="mt-4">
-        <ActionCard title="Measure twice, cut once" items={MATH_TOOLS} />
+        <ActionCard items={MATH_TOOLS} />
       </div>
     </div>
   );
@@ -77,6 +83,14 @@ function DimensionalCalculator() {
   const [a, setA] = useState(148);
   const [b, setB] = useState(3.625);
   const [op, setOp] = useState<Operator>('−');
+
+  const calcFired = useRef(false);
+  const fireCalc = () => {
+    if (!calcFired.current) {
+      calcFired.current = true;
+      trackCalculate('Quick Math');
+    }
+  };
 
   const res = useMemo(() => computeDimensional(a, op, b), [a, op, b]);
 
@@ -104,15 +118,30 @@ function DimensionalCalculator() {
       <FractionalInput
         label="Value A"
         valueInches={a}
-        onChange={setA}
+        onChange={(v) => {
+          setA(v);
+          fireCalc();
+        }}
+        help={INPUT_HELP}
       />
 
-      <Segmented label="Operation" options={OP_OPTIONS} value={op} onChange={setOp} />
+      <Segmented
+        label="Operation"
+        options={OP_OPTIONS}
+        value={op}
+        onChange={(v) => {
+          setOp(v);
+          fireCalc();
+        }}
+      />
 
       <FractionalInput
         label="Value B"
         valueInches={b}
-        onChange={setB}
+        onChange={(v) => {
+          setB(v);
+          fireCalc();
+        }}
       />
 
       <div className="rounded-2xl bg-surface-2 p-4">
@@ -204,8 +233,15 @@ function ConvInput({
       <input
         type="text"
         inputMode="decimal"
+        autoComplete="off"
+        autoCorrect="off"
+        autoCapitalize="off"
+        spellCheck={false}
+        enterKeyHint="done"
+        aria-label={unit}
         value={value}
         placeholder="0"
+        onFocus={(e) => e.currentTarget.select()}
         onChange={(e) => onChange(cleanDecimal(e.target.value))}
         className="min-w-0 flex-1 bg-transparent text-lg font-bold outline-none"
       />

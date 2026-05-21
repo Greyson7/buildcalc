@@ -1,8 +1,9 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { type BagSize, calculateConcrete, formatCurrency } from '@/lib/concrete';
 import type { LengthUnit } from '@/lib/imperial';
+import { trackCalculate, trackFirstModule } from '@/lib/analytics';
 import { useCalculatorStore } from '@/store/useCalculatorStore';
 import { ActionCard } from '@/components/ActionCard';
 import { ConcreteDiagram } from '@/components/ConcreteDiagram';
@@ -55,6 +56,17 @@ export default function ConcretePage() {
   const [widthUnit, setWidthUnit] = useState<LengthUnit>('ft');
   const [depthUnit, setDepthUnit] = useState<LengthUnit>('in');
 
+  // Analytics — first module of the session, and a one-time "Calculate" event.
+  useEffect(() => trackFirstModule('Concrete'), []);
+  const calcFired = useRef(false);
+  const updateConcrete = (patch: Parameters<typeof setConcrete>[0]) => {
+    setConcrete(patch);
+    if (!calcFired.current) {
+      calcFired.current = true;
+      trackCalculate('Concrete');
+    }
+  };
+
   const result = useMemo(() => calculateConcrete(concrete), [concrete]);
   const hasPrice = result.costByYard != null || result.costByBag != null;
 
@@ -92,7 +104,7 @@ export default function ConcretePage() {
               valueInches={concrete.length}
               unit={lengthUnit}
               units={PLAN_UNITS}
-              onValueChange={(v) => setConcrete({ length: v })}
+              onValueChange={(v) => updateConcrete({ length: v })}
               onUnitChange={setLengthUnit}
             />
             <UnitField
@@ -100,7 +112,7 @@ export default function ConcretePage() {
               valueInches={concrete.width}
               unit={widthUnit}
               units={PLAN_UNITS}
-              onValueChange={(v) => setConcrete({ width: v })}
+              onValueChange={(v) => updateConcrete({ width: v })}
               onUnitChange={setWidthUnit}
             />
             <UnitField
@@ -108,7 +120,7 @@ export default function ConcretePage() {
               valueInches={concrete.depth}
               unit={depthUnit}
               units={DEPTH_UNITS}
-              onValueChange={(v) => setConcrete({ depth: v })}
+              onValueChange={(v) => updateConcrete({ depth: v })}
               onUnitChange={setDepthUnit}
             />
             <Stepper
@@ -116,7 +128,7 @@ export default function ConcretePage() {
               value={concrete.count}
               min={1}
               max={99}
-              onChange={(v) => setConcrete({ count: v })}
+              onChange={(v) => updateConcrete({ count: v })}
               suffix={concrete.count === 1 ? 'pour' : 'pours'}
             />
 
@@ -133,7 +145,7 @@ export default function ConcretePage() {
                   <button
                     key={p}
                     type="button"
-                    onClick={() => setConcrete({ wastePct: p })}
+                    onClick={() => updateConcrete({ wastePct: p })}
                     className={`tap flex-1 rounded-xl text-sm font-bold ${
                       concrete.wastePct === p
                         ? 'bg-brand text-surface-0'
@@ -152,7 +164,7 @@ export default function ConcretePage() {
                 step={1}
                 value={concrete.wastePct}
                 onChange={(e) =>
-                  setConcrete({ wastePct: Math.round(Number(e.target.value)) })
+                  updateConcrete({ wastePct: Math.round(Number(e.target.value)) })
                 }
                 aria-label="Custom waste factor"
               />
@@ -168,7 +180,7 @@ export default function ConcretePage() {
               label="Bag Size"
               options={BAG_OPTIONS}
               value={concrete.bagSize}
-              onChange={(v) => setConcrete({ bagSize: v })}
+              onChange={(v) => updateConcrete({ bagSize: v })}
             />
             <div className="grid grid-cols-2 gap-3">
               <NumberField
@@ -176,14 +188,14 @@ export default function ConcretePage() {
                 prefix="$"
                 placeholder="—"
                 value={concrete.pricePerYard}
-                onChange={(v) => setConcrete({ pricePerYard: v })}
+                onChange={(v) => updateConcrete({ pricePerYard: v })}
               />
               <NumberField
                 label="Price / bag"
                 prefix="$"
                 placeholder="—"
                 value={concrete.pricePerBag}
-                onChange={(v) => setConcrete({ pricePerBag: v })}
+                onChange={(v) => updateConcrete({ pricePerBag: v })}
               />
             </div>
           </section>
@@ -257,7 +269,7 @@ export default function ConcretePage() {
 
       {/* Monetization surface */}
       <div className="mt-4">
-        <ActionCard title="Tools for this pour" items={CONCRETE_TOOLS} />
+        <ActionCard items={CONCRETE_TOOLS} />
       </div>
 
       <p className="mt-4 px-1 text-xs text-ink-faint">

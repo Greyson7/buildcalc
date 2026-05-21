@@ -16,6 +16,8 @@ interface Props {
   hint?: string;
   /** When true, a 0 value reads as "Auto" instead of 0" (optional fields). */
   optional?: boolean;
+  /** Optional how-to text — surfaces a "?" toggle next to the label. */
+  help?: string;
 }
 
 const toInt = (s: string): number => {
@@ -35,12 +37,14 @@ export function FractionalInput({
   onChange,
   hint,
   optional,
+  help,
 }: Props) {
   const parts = toInputParts(valueInches);
   const fraction = parts.fraction;
 
   const [feetText, setFeetText] = useState(() => partText(parts.feet));
   const [inchText, setInchText] = useState(() => partText(parts.inches));
+  const [showHelp, setShowHelp] = useState(false);
   const emitted = useRef(valueInches);
 
   // Resync the editable fields when the value changes from outside.
@@ -62,7 +66,20 @@ export function FractionalInput({
   return (
     <div>
       <div className="flex items-baseline justify-between gap-2">
-        <label className="field-label">{label}</label>
+        <div className="flex items-center gap-1.5">
+          <label className="field-label">{label}</label>
+          {help && (
+            <button
+              type="button"
+              onClick={() => setShowHelp((v) => !v)}
+              aria-label={`How the ${label} input works`}
+              aria-expanded={showHelp}
+              className="grid h-6 w-6 place-items-center rounded-full border border-line text-[11px] font-bold text-ink-dim active:bg-surface-2"
+            >
+              ?
+            </button>
+          )}
+        </div>
         <span className="selectable font-mono text-sm font-bold text-brand-light">
           {valueInches > 0
             ? formatFeetInches(valueInches)
@@ -71,6 +88,12 @@ export function FractionalInput({
               : '0"'}
         </span>
       </div>
+
+      {help && showHelp && (
+        <p className="mt-2 rounded-xl border border-brand/20 bg-brand/5 p-2.5 text-xs leading-relaxed text-ink-dim">
+          {help}
+        </p>
+      )}
 
       {/* Feet + whole inches — numeric pad only */}
       <div className="mt-1.5 flex gap-2">

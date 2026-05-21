@@ -1,8 +1,9 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { formatFeetInches, formatInches } from '@/lib/imperial';
 import { calculateStairs } from '@/lib/stairs';
+import { trackCalculate, trackFirstModule } from '@/lib/analytics';
 import { useCalculatorStore } from '@/store/useCalculatorStore';
 import { ActionCard } from '@/components/ActionCard';
 import { StairDiagram } from '@/components/StairDiagram';
@@ -14,6 +15,9 @@ import { CheckRow, SummaryCard, SummaryRow } from '@/components/ui/SummaryCard';
 
 // Sticky offset: pin flush below the 56px header (+ device safe-area inset).
 const STICKY_TOP = 'calc(56px + var(--safe-top))';
+
+const INPUT_HELP =
+  'Enter whole feet and inches with the number pad, then tap a fraction chip for the 1/16" part. Example: 5\' 4-3/8" is 5 ft, 4 in, then the 3/8 chip.';
 
 const STAIR_TOOLS = [
   {
@@ -40,6 +44,17 @@ export default function StairsPage() {
   const stairs = useCalculatorStore((s) => s.stairs);
   const setStairs = useCalculatorStore((s) => s.setStairs);
   const resetStairs = useCalculatorStore((s) => s.resetStairs);
+
+  // Analytics — first module of the session, and a one-time "Calculate" event.
+  useEffect(() => trackFirstModule('Stairs'), []);
+  const calcFired = useRef(false);
+  const updateStairs = (patch: Parameters<typeof setStairs>[0]) => {
+    setStairs(patch);
+    if (!calcFired.current) {
+      calcFired.current = true;
+      trackCalculate('Stairs');
+    }
+  };
 
   const result = useMemo(() => calculateStairs(stairs), [stairs]);
 
@@ -85,14 +100,15 @@ export default function StairsPage() {
             <FractionalInput
               label="Total Rise"
               valueInches={stairs.totalRise}
-              onChange={(v) => setStairs({ totalRise: v })}
+              onChange={(v) => updateStairs({ totalRise: v })}
               hint="Required — finished floor to finished floor."
+              help={INPUT_HELP}
             />
             <FractionalInput
               label="Total Run"
               optional
               valueInches={stairs.totalRun}
-              onChange={(v) => setStairs({ totalRun: v })}
+              onChange={(v) => updateStairs({ totalRun: v })}
               hint={
                 runLocked
                   ? 'Locking the geometry — tread depth is set from this.'
@@ -104,7 +120,7 @@ export default function StairsPage() {
               value={stairs.targetRiser}
               min={5}
               max={8.25}
-              onChange={(v) => setStairs({ targetRiser: v })}
+              onChange={(v) => updateStairs({ targetRiser: v })}
               display={(v) => formatInches(v)}
               hint="Guideline — sets how many risers the rise is divided into."
             />
@@ -114,7 +130,7 @@ export default function StairsPage() {
               min={8}
               max={14}
               disabled={runLocked}
-              onChange={(v) => setStairs({ targetTread: v })}
+              onChange={(v) => updateStairs({ targetTread: v })}
               display={(v) => formatInches(v)}
               hint={
                 runLocked
@@ -127,7 +143,7 @@ export default function StairsPage() {
               value={stairs.treadThickness}
               min={0.5}
               max={2}
-              onChange={(v) => setStairs({ treadThickness: v })}
+              onChange={(v) => updateStairs({ treadThickness: v })}
               display={(v) => formatInches(v)}
               hint="Finished tread stock — dropped from the bottom stringer cut."
             />
@@ -211,7 +227,7 @@ export default function StairsPage() {
 
       {/* Monetization surface */}
       <div className="mt-4">
-        <ActionCard title="Tools for this job" items={STAIR_TOOLS} />
+        <ActionCard items={STAIR_TOOLS} />
       </div>
 
       <p className="mt-4 px-1 text-xs text-ink-faint">

@@ -3,9 +3,10 @@ import type { ReactNode } from 'react';
 /**
  * ActionCard — the monetization surface at the bottom of every module.
  *
- * One variant only: affiliate tool recommendations with static outbound
- * links. No forms, no data collection — nothing that needs a backend, so it
- * works offline and inside a Capacitor WebView unchanged.
+ * Affiliate tool recommendations only: static outbound links, no forms and
+ * no data collection (nothing that needs a backend, so it works offline and
+ * inside a Capacitor WebView). Always headed "Recommended Tools" and marked
+ * as affiliate, so it stays transparent and keeps user trust.
  */
 
 export interface ToolItem {
@@ -17,24 +18,18 @@ export interface ToolItem {
 }
 
 /**
- * Affiliate groundwork: this is the single place a real affiliate program's
+ * Affiliate groundwork: the single place a real affiliate program's
  * deep-link format / tracking tag gets wired in later.
  */
 function toolUrl(query: string): string {
   return `https://www.homedepot.com/s/${encodeURIComponent(query)}`;
 }
 
-export function ActionCard({
-  title,
-  items,
-}: {
-  title: string;
-  items: ToolItem[];
-}) {
+export function ActionCard({ items }: { items: ToolItem[] }) {
   return (
     <section className="card p-4">
       <div className="flex items-baseline justify-between gap-2">
-        <h3 className="text-sm font-bold">{title}</h3>
+        <h3 className="text-sm font-bold">Recommended Tools</h3>
         <span className="text-[10px] font-semibold uppercase tracking-[0.1em] text-ink-faint">
           Affiliate
         </span>
@@ -45,7 +40,7 @@ export function ActionCard({
             key={t.name}
             href={toolUrl(t.query)}
             target="_blank"
-            rel="noopener noreferrer"
+            rel="noopener noreferrer sponsored"
             className="tap flex flex-col items-center gap-1.5 rounded-2xl border border-line bg-surface-2 p-3 text-center active:bg-surface-3"
           >
             <span className="text-brand">{t.icon}</span>
