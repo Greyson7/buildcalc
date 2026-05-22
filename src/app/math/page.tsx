@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Faq, type QA } from '@/components/Faq';
+import { SiteFooter } from '@/components/SiteFooter';
 import { QuickMathTool } from './QuickMathTool';
 
 export const metadata: Metadata = {
@@ -79,6 +80,8 @@ export default function QuickMathPage() {
           </div>
         </section>
       </div>
+
+      <SiteFooter />
     </>
   );
 }

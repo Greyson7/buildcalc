@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Faq, type QA } from '@/components/Faq';
+import { SiteFooter } from '@/components/SiteFooter';
 import { ConcreteCalculator } from './ConcreteCalculator';
 
 export const metadata: Metadata = {
@@ -79,6 +80,8 @@ export default function ConcretePage() {
           </div>
         </section>
       </div>
+
+      <SiteFooter />
     </>
   );
 }

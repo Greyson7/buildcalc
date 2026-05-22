@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
   ArrowRightIcon,
-  ChatIcon,
   ConcreteIcon,
   DeckIcon,
   QuickMathIcon,
@@ -12,6 +11,7 @@ import {
   StairsIcon,
 } from '@/components/icons';
 import { InstallPrompt } from '@/components/InstallPrompt';
+import { SiteFooter } from '@/components/SiteFooter';
 
 const MODULES = [
   {
@@ -45,14 +45,7 @@ const FEATURES = [
   ['Code-aware', 'IRC checks'],
 ];
 
-// Feedback goes to a Google Form — override with NEXT_PUBLIC_FEEDBACK_URL.
-const FEEDBACK_URL =
-  process.env.NEXT_PUBLIC_FEEDBACK_URL ||
-  'https://docs.google.com/forms/d/e/1FAIpQLScB5YuDw075VGzb7RbP-MIMIKO97c5_oOo2ZvtucJyH_-twFw/viewform';
-
 export default function HomePage() {
-  const feedbackExternal = !FEEDBACK_URL.startsWith('mailto:');
-
   return (
     <div className="space-y-6">
       <section className="pt-2">
@@ -129,22 +122,7 @@ export default function HomePage() {
         ))}
       </section>
 
-      <footer className="space-y-3 pt-1 text-center">
-        <a
-          href={FEEDBACK_URL}
-          {...(feedbackExternal
-            ? { target: '_blank', rel: 'noopener noreferrer' }
-            : {})}
-          className="tap inline-flex items-center gap-2 rounded-pill border border-line px-4 py-2 text-sm font-semibold text-ink-dim active:bg-surface-2"
-        >
-          <ChatIcon className="h-4 w-4" />
-          Feedback / report a bug
-        </a>
-        <p className="px-1 text-xs text-ink-faint">
-          BuildCalc runs entirely on your device. Add it to your home screen for
-          a full-screen, offline app.
-        </p>
-      </footer>
+      <SiteFooter />
     </div>
   );
 }

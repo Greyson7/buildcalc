@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Faq, type QA } from '@/components/Faq';
+import { SiteFooter } from '@/components/SiteFooter';
 import { StairsCalculator } from './StairsCalculator';
 
 export const metadata: Metadata = {
@@ -81,6 +82,8 @@ export default function StairsPage() {
           </div>
         </section>
       </div>
+
+      <SiteFooter />
     </>
   );
 }
