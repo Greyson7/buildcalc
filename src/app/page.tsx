@@ -32,7 +32,7 @@ const MODULES = [
   },
   {
     href: '/concrete',
-    title: 'Concrete Estimator',
+    title: 'Concrete Calculator',
     desc: 'How much to order — cubic yards, bags and cost for slabs, footings and posts.',
     Icon: ConcreteIcon,
   },

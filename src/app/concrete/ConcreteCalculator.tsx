@@ -80,7 +80,7 @@ export function ConcreteCalculator() {
     <div>
       <header>
         <h1 className="text-xl font-extrabold tracking-tight">
-          Concrete Estimator
+          Concrete Calculator
         </h1>
         <p className="text-sm text-ink-dim">
           Volume, bag count and live cost for slabs &amp; footings.
