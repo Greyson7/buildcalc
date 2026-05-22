@@ -23,8 +23,8 @@ export function ActionCard({ items }: { items: ToolItem[] }) {
     <section className="card p-4">
       <h3 className="text-sm font-bold">Recommended Tools</h3>
       <p className="mt-0.5 text-[11px] leading-snug text-ink-faint">
-        Affiliate links — BuildCalc may earn a commission, at no extra cost to
-        you.
+        As an Amazon Associate, BuildCalc earns from qualifying purchases — at
+        no extra cost to you.
       </p>
       <div className="mt-3 grid grid-cols-3 gap-2">
         {items.map((t) => (

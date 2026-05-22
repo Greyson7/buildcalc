@@ -11,10 +11,10 @@
  */
 
 /**
- * Amazon Associates tracking tag. Set NEXT_PUBLIC_AMAZON_TAG to the real
- * Associates tag at build time; this is a placeholder until then.
+ * Amazon Associates tracking tag — override per-build with
+ * NEXT_PUBLIC_AMAZON_TAG (e.g. for a staging store ID).
  */
-const AMAZON_TAG = process.env.NEXT_PUBLIC_AMAZON_TAG || 'buildprocalc-20';
+const AMAZON_TAG = process.env.NEXT_PUBLIC_AMAZON_TAG || 'buildcalc02-20';
 
 /**
  * Build a tagged Amazon affiliate URL.
