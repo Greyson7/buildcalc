@@ -11,9 +11,9 @@ import {
 
 const TABS = [
   { href: '/', label: 'Home', Icon: HomeIcon },
+  { href: '/math', label: 'Quick Math', Icon: QuickMathIcon },
   { href: '/stairs', label: 'Stairs', Icon: StairsIcon },
   { href: '/concrete', label: 'Concrete', Icon: ConcreteIcon },
-  { href: '/math', label: 'Quick Math', Icon: QuickMathIcon },
 ] as const;
 
 /** Strip a trailing slash so `/stairs/` matches the `/stairs` tab href. */

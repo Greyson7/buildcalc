@@ -15,6 +15,12 @@ import { SiteFooter } from '@/components/SiteFooter';
 
 const MODULES = [
   {
+    href: '/math',
+    title: 'Quick Math',
+    desc: 'Add and subtract feet, inches and fractions, plus instant unit conversions.',
+    Icon: QuickMathIcon,
+  },
+  {
     href: '/stairs',
     title: 'Stair Calculator',
     desc: 'Even risers, the right tread depth and a stringer cut list — checked against code.',
@@ -25,12 +31,6 @@ const MODULES = [
     title: 'Concrete Estimator',
     desc: 'How much to order — cubic yards, bags and cost for slabs, footings and posts.',
     Icon: ConcreteIcon,
-  },
-  {
-    href: '/math',
-    title: 'Quick Math',
-    desc: 'Add and subtract feet, inches and fractions, plus instant unit conversions.',
-    Icon: QuickMathIcon,
   },
 ];
 
