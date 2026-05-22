@@ -10,7 +10,7 @@ import { useCalculatorStore } from '@/store/useCalculatorStore';
 import { ActionCard } from '@/components/ActionCard';
 import { RoofingDiagram } from '@/components/RoofingDiagram';
 import { StarterHint } from '@/components/StarterHint';
-import { HammerIcon, KnifeIcon, TapeIcon } from '@/components/icons';
+import { ChalkLineIcon, HammerIcon, KnifeIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
 import { NumberField } from '@/components/ui/NumberField';
 import { SliderField } from '@/components/ui/SliderField';
@@ -39,10 +39,10 @@ const ROOFING_TOOLS = [
     icon: <KnifeIcon className="h-6 w-6" />,
   },
   {
-    name: 'Tape Measure',
-    detail: '25 ft, magnetic',
-    url: amazon('25 ft tape measure'),
-    icon: <TapeIcon className="h-6 w-6" />,
+    name: 'Chalk Line',
+    detail: 'Snap your courses',
+    url: amazon('chalk line reel'),
+    icon: <ChalkLineIcon className="h-6 w-6" />,
   },
 ];
 

@@ -9,7 +9,7 @@ import { useCalculatorStore } from '@/store/useCalculatorStore';
 import { ActionCard } from '@/components/ActionCard';
 import { StairDiagram } from '@/components/StairDiagram';
 import { StarterHint } from '@/components/StarterHint';
-import { SawIcon, SquareIcon, TapeIcon } from '@/components/icons';
+import { ClampIcon, SawIcon, SquareIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
 import { FractionalInput } from '@/components/ui/FractionalInput';
 import { SliderField } from '@/components/ui/SliderField';
@@ -37,10 +37,10 @@ const STAIR_TOOLS = [
     icon: <SawIcon className="h-6 w-6" />,
   },
   {
-    name: 'Tape Measure',
-    detail: '25 ft, magnetic',
-    url: amazon('25 ft tape measure'),
-    icon: <TapeIcon className="h-6 w-6" />,
+    name: 'Stair Gauges',
+    detail: 'Repeat the layout',
+    url: amazon('stair gauge set'),
+    icon: <ClampIcon className="h-6 w-6" />,
   },
 ];
 

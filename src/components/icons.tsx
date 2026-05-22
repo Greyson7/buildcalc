@@ -199,6 +199,35 @@ export function ScrewIcon({ className }: IconProps) {
   );
 }
 
+export function PencilIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...stroke}>
+      <path d="M4 20l4-1L19 8l-3-3L5 16l-1 4z" />
+      <path d="M14 7l3 3" />
+    </svg>
+  );
+}
+
+export function ClampIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...stroke}>
+      <path d="M15 4H8a4 4 0 00-4 4v8a4 4 0 004 4h7" />
+      <path d="M15 7v10" />
+      <path d="M15 12h5" />
+    </svg>
+  );
+}
+
+export function ChalkLineIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...stroke}>
+      <path d="M5 4h7a4 4 0 014 4v2a4 4 0 01-4 4H9" />
+      <path d="M9 14l-4 6" />
+      <path d="M13 6l4-2" />
+    </svg>
+  );
+}
+
 // --- Roadmap module icons -------------------------------------------------
 
 export function RoofIcon({ className }: IconProps) {

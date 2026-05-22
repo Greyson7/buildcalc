@@ -11,7 +11,7 @@ import {
 import { trackCalculate, trackFirstModule } from '@/lib/analytics';
 import { amazon } from '@/lib/affiliate';
 import { ActionCard } from '@/components/ActionCard';
-import { LevelIcon, SquareIcon, TapeIcon } from '@/components/icons';
+import { PencilIcon, RulerIcon, TapeIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
 import { FractionalInput } from '@/components/ui/FractionalInput';
 import { Segmented } from '@/components/ui/Segmented';
@@ -29,16 +29,16 @@ const MATH_TOOLS = [
     icon: <TapeIcon className="h-6 w-6" />,
   },
   {
-    name: 'Framing Square',
-    detail: 'Mark & check',
-    url: amazon('framing square'),
-    icon: <SquareIcon className="h-6 w-6" />,
+    name: 'Laser Measure',
+    detail: 'Long spans fast',
+    url: amazon('laser measure'),
+    icon: <RulerIcon className="h-6 w-6" />,
   },
   {
-    name: '4 ft Level',
-    detail: 'Keep it true',
-    url: amazon('4 ft level'),
-    icon: <LevelIcon className="h-6 w-6" />,
+    name: 'Carpenter Pencils',
+    detail: 'Mark every cut',
+    url: amazon('carpenter pencils'),
+    icon: <PencilIcon className="h-6 w-6" />,
   },
 ];
 
