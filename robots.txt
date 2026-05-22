@@ -1,0 +1,5 @@
+User-Agent: *
+Allow: /
+
+Host: https://buildprocalc.com
+Sitemap: https://buildprocalc.com/sitemap.xml
