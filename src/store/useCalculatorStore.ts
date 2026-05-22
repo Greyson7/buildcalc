@@ -32,13 +32,38 @@ export interface ConcreteState {
   pricePerBag: number | null;
 }
 
+export interface RoofingState {
+  length: number; // inches — footprint length the roof covers
+  width: number; // inches — footprint width
+  pitch: number; // rise per 12" of run
+  wastePct: number;
+  pricePerSquare: number | null;
+}
+
+export interface DeckingState {
+  length: number; // inches — deck length (boards run this way)
+  width: number; // inches — deck width
+  boardWidth: number; // inches — deck board face width
+  boardGap: number; // inches — gap between boards
+  boardLength: number; // inches — length of boards purchased
+  joistSpacing: number; // inches — on-center joist spacing
+  wastePct: number;
+  pricePerBoard: number | null;
+}
+
 interface CalculatorStore {
   stairs: StairState;
   concrete: ConcreteState;
+  roofing: RoofingState;
+  decking: DeckingState;
   setStairs: (patch: Partial<StairState>) => void;
   setConcrete: (patch: Partial<ConcreteState>) => void;
+  setRoofing: (patch: Partial<RoofingState>) => void;
+  setDecking: (patch: Partial<DeckingState>) => void;
   resetStairs: () => void;
   resetConcrete: () => void;
+  resetRoofing: () => void;
+  resetDecking: () => void;
 }
 
 export const STAIR_DEFAULTS: StairState = {
@@ -60,6 +85,25 @@ export const CONCRETE_DEFAULTS: ConcreteState = {
   pricePerBag: null,
 };
 
+export const ROOFING_DEFAULTS: RoofingState = {
+  length: 480, // 40'
+  width: 360, // 30'
+  pitch: 6, // 6/12 — a common residential pitch
+  wastePct: 12, // typical shingle waste allowance
+  pricePerSquare: null,
+};
+
+export const DECKING_DEFAULTS: DeckingState = {
+  length: 192, // 16'
+  width: 144, // 12'
+  boardWidth: 5.5, // a nominal 6" deck board is 5-1/2" wide
+  boardGap: 0.1875, // 3/16" spacing
+  boardLength: 192, // 16' boards
+  joistSpacing: 16, // 16" on-center
+  wastePct: 10, // typical decking waste allowance
+  pricePerBoard: null,
+};
+
 // localStorage is unavailable during the static build — fall back to a no-op.
 const safeStorage = createJSONStorage(() =>
   typeof window !== 'undefined'
@@ -76,11 +120,19 @@ export const useCalculatorStore = create<CalculatorStore>()(
     (set) => ({
       stairs: { ...STAIR_DEFAULTS },
       concrete: { ...CONCRETE_DEFAULTS },
+      roofing: { ...ROOFING_DEFAULTS },
+      decking: { ...DECKING_DEFAULTS },
       setStairs: (patch) => set((s) => ({ stairs: { ...s.stairs, ...patch } })),
       setConcrete: (patch) =>
         set((s) => ({ concrete: { ...s.concrete, ...patch } })),
+      setRoofing: (patch) =>
+        set((s) => ({ roofing: { ...s.roofing, ...patch } })),
+      setDecking: (patch) =>
+        set((s) => ({ decking: { ...s.decking, ...patch } })),
       resetStairs: () => set({ stairs: { ...STAIR_DEFAULTS } }),
       resetConcrete: () => set({ concrete: { ...CONCRETE_DEFAULTS } }),
+      resetRoofing: () => set({ roofing: { ...ROOFING_DEFAULTS } }),
+      resetDecking: () => set({ decking: { ...DECKING_DEFAULTS } }),
     }),
     {
       name: 'buildcalc-state',
@@ -94,6 +146,8 @@ export const useCalculatorStore = create<CalculatorStore>()(
           ...current,
           stairs: { ...current.stairs, ...(p.stairs ?? {}) },
           concrete: { ...current.concrete, ...(p.concrete ?? {}) },
+          roofing: { ...current.roofing, ...(p.roofing ?? {}) },
+          decking: { ...current.decking, ...(p.decking ?? {}) },
         };
       },
       // Rehydrate manually after mount (see ClientBoot) so the first client

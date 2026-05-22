@@ -4,16 +4,20 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   ConcreteIcon,
+  DeckIcon,
   HomeIcon,
   QuickMathIcon,
+  RoofIcon,
   StairsIcon,
 } from './icons';
 
 const TABS = [
   { href: '/', label: 'Home', Icon: HomeIcon },
-  { href: '/math', label: 'Quick Math', Icon: QuickMathIcon },
+  { href: '/math', label: 'Math', Icon: QuickMathIcon },
   { href: '/stairs', label: 'Stairs', Icon: StairsIcon },
   { href: '/concrete', label: 'Concrete', Icon: ConcreteIcon },
+  { href: '/roofing', label: 'Roofing', Icon: RoofIcon },
+  { href: '/decking', label: 'Decking', Icon: DeckIcon },
 ] as const;
 
 /** Strip a trailing slash so `/stairs/` matches the `/stairs` tab href. */

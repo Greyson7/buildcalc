@@ -161,6 +161,44 @@ export function LevelIcon({ className }: IconProps) {
   );
 }
 
+export function HammerIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...stroke}>
+      <path d="M3 21l7.5-7.5" />
+      <path d="M8 9l5-5 7 7-5 5z" />
+      <path d="M10.5 6.5l5 5" />
+    </svg>
+  );
+}
+
+export function KnifeIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...stroke}>
+      <path d="M5 19l9-9 4-4 1 1-4 4-9 9H6a1 1 0 01-1-1z" />
+    </svg>
+  );
+}
+
+export function DrillIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...stroke}>
+      <path d="M3 7h12v6H8l-5-3z" />
+      <path d="M9 13v3a2 2 0 002 2h2" />
+      <path d="M15 9h5l1-1v4l-1-1h-5" />
+    </svg>
+  );
+}
+
+export function ScrewIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...stroke}>
+      <path d="M9 4h6" />
+      <path d="M12 4v11l-2 4" />
+      <path d="M9.5 8h5M9.5 11h5" />
+    </svg>
+  );
+}
+
 // --- Roadmap module icons -------------------------------------------------
 
 export function RoofIcon({ className }: IconProps) {

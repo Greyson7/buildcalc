@@ -32,11 +32,18 @@ const MODULES = [
     desc: 'How much to order — cubic yards, bags and cost for slabs, footings and posts.',
     Icon: ConcreteIcon,
   },
-];
-
-const COMING_SOON = [
-  { title: 'Roofing', Icon: RoofIcon },
-  { title: 'Decking', Icon: DeckIcon },
+  {
+    href: '/roofing',
+    title: 'Roofing Calculator',
+    desc: 'Roof area, squares and shingle bundles from your footprint and pitch.',
+    Icon: RoofIcon,
+  },
+  {
+    href: '/decking',
+    title: 'Decking Calculator',
+    desc: 'Deck boards, joists and screws for any rectangular deck.',
+    Icon: DeckIcon,
+  },
 ];
 
 const FEATURES = [
@@ -86,32 +93,6 @@ export default function HomePage() {
             </Link>
           </motion.div>
         ))}
-
-        {/* Roadmap — active development signal, not yet tappable */}
-        <div className="pt-1">
-          <p className="mb-2 px-1 text-[11px] font-semibold uppercase tracking-[0.1em] text-ink-faint">
-            More on the way
-          </p>
-          <div className="grid grid-cols-2 gap-3">
-            {COMING_SOON.map((m) => (
-              <div
-                key={m.title}
-                aria-disabled="true"
-                className="card flex items-center gap-3 p-3.5 opacity-55"
-              >
-                <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-surface-2 text-ink-faint">
-                  <m.Icon className="h-5 w-5" />
-                </span>
-                <div className="min-w-0">
-                  <div className="text-sm font-bold">{m.title}</div>
-                  <span className="mt-0.5 inline-block rounded-pill bg-surface-3 px-1.5 py-0.5 text-[9px] font-bold uppercase tracking-[0.08em] text-ink-dim">
-                    Coming soon
-                  </span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
       </section>
 
       <section className="card p-4">
