@@ -9,6 +9,7 @@ import {
   type Operator,
 } from '@/lib/quickmath';
 import { trackCalculate, trackFirstModule } from '@/lib/analytics';
+import { amazon } from '@/lib/affiliate';
 import { ActionCard } from '@/components/ActionCard';
 import { LevelIcon, SquareIcon, TapeIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
@@ -18,23 +19,25 @@ import { Segmented } from '@/components/ui/Segmented';
 const INPUT_HELP =
   'Enter whole feet and inches with the number pad, then tap a fraction chip for the 1/16" part. Example: 5\' 4-3/8" is 5 ft, 4 in, then the 3/8 chip.';
 
+// Swap a product by changing the amazon() argument (ASIN or search), or
+// drop in an industry-partner URL directly.
 const MATH_TOOLS = [
   {
     name: 'Tape Measure',
     detail: '25 ft, magnetic',
-    query: 'tape measure 25 ft',
+    url: amazon('25 ft tape measure'),
     icon: <TapeIcon className="h-6 w-6" />,
   },
   {
     name: 'Framing Square',
     detail: 'Mark & check',
-    query: 'framing square',
+    url: amazon('framing square'),
     icon: <SquareIcon className="h-6 w-6" />,
   },
   {
     name: '4 ft Level',
     detail: 'Keep it true',
-    query: '4 ft level',
+    url: amazon('4 ft level'),
     icon: <LevelIcon className="h-6 w-6" />,
   },
 ];

@@ -24,6 +24,10 @@ const siteUrl =
 const description =
   'Offline-first stair, concrete and imperial calculators. A fast, modern job-site tool — not a skeuomorphic button grid.';
 
+// Google Search Console verification token (URL-prefix property method).
+// Leave unset when verifying via a DNS TXT record instead.
+const gscVerification = process.env.NEXT_PUBLIC_GSC_VERIFICATION;
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: 'BuildCalc — Construction Calculator',
@@ -31,6 +35,7 @@ export const metadata: Metadata = {
   applicationName: 'BuildCalc',
   manifest: `${basePath}/manifest.webmanifest`,
   alternates: { canonical: '/' },
+  verification: gscVerification ? { google: gscVerification } : undefined,
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',

@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { type BagSize, calculateConcrete, formatCurrency } from '@/lib/concrete';
 import type { LengthUnit } from '@/lib/imperial';
 import { trackCalculate, trackFirstModule } from '@/lib/analytics';
+import { amazon } from '@/lib/affiliate';
 import { useCalculatorStore } from '@/store/useCalculatorStore';
 import { ActionCard } from '@/components/ActionCard';
 import { ConcreteDiagram } from '@/components/ConcreteDiagram';
@@ -25,23 +26,25 @@ const BAG_OPTIONS = [
 ];
 const WASTE_PRESETS = [0, 5, 10, 15];
 
+// Swap a product by changing the amazon() argument (ASIN or search), or
+// drop in an industry-partner URL directly.
 const CONCRETE_TOOLS = [
   {
     name: 'Bull Float',
     detail: 'Finish the slab',
-    query: 'bull float concrete',
+    url: amazon('bull float concrete'),
     icon: <TrowelIcon className="h-6 w-6" />,
   },
   {
     name: 'Mixing Tub',
     detail: 'Mix the bags',
-    query: 'concrete mixing tub',
+    url: amazon('concrete mixing tub'),
     icon: <BucketIcon className="h-6 w-6" />,
   },
   {
     name: '4 ft Level',
     detail: 'Screed it flat',
-    query: '4 ft level',
+    url: amazon('4 ft level'),
     icon: <LevelIcon className="h-6 w-6" />,
   },
 ];

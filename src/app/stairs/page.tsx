@@ -4,6 +4,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { formatFeetInches, formatInches } from '@/lib/imperial';
 import { calculateStairs } from '@/lib/stairs';
 import { trackCalculate, trackFirstModule } from '@/lib/analytics';
+import { amazon } from '@/lib/affiliate';
 import { useCalculatorStore } from '@/store/useCalculatorStore';
 import { ActionCard } from '@/components/ActionCard';
 import { StairDiagram } from '@/components/StairDiagram';
@@ -19,23 +20,25 @@ const STICKY_TOP = 'calc(56px + var(--safe-top))';
 const INPUT_HELP =
   'Enter whole feet and inches with the number pad, then tap a fraction chip for the 1/16" part. Example: 5\' 4-3/8" is 5 ft, 4 in, then the 3/8 chip.';
 
+// Swap a product by changing the amazon() argument (ASIN or search), or
+// drop in an industry-partner URL directly.
 const STAIR_TOOLS = [
   {
     name: 'Framing Square',
     detail: 'Lay out stringers',
-    query: 'framing square',
+    url: amazon('framing square'),
     icon: <SquareIcon className="h-6 w-6" />,
   },
   {
     name: 'Circular Saw',
     detail: 'Cut the notches',
-    query: 'circular saw',
+    url: amazon('circular saw'),
     icon: <SawIcon className="h-6 w-6" />,
   },
   {
     name: 'Tape Measure',
     detail: '25 ft, magnetic',
-    query: 'tape measure 25 ft',
+    url: amazon('25 ft tape measure'),
     icon: <TapeIcon className="h-6 w-6" />,
   },
 ];

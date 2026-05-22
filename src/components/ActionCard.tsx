@@ -4,49 +4,44 @@ import type { ReactNode } from 'react';
  * ActionCard — the monetization surface at the bottom of every module.
  *
  * Affiliate tool recommendations only: static outbound links, no forms and
- * no data collection (nothing that needs a backend, so it works offline and
- * inside a Capacitor WebView). Always headed "Recommended Tools" and marked
- * as affiliate, so it stays transparent and keeps user trust.
+ * no data collection (works offline / inside a Capacitor WebView). Every
+ * link is `rel="sponsored"` and sits under a clear affiliate disclosure.
+ *
+ * To swap a product, change a ToolItem's `url` — see lib/affiliate.ts.
  */
 
 export interface ToolItem {
   name: string;
   detail: string;
-  /** Search query for the retailer link. */
-  query: string;
+  /** Full outbound affiliate URL — build with amazon() or a partner link. */
+  url: string;
   icon: ReactNode;
-}
-
-/**
- * Affiliate groundwork: the single place a real affiliate program's
- * deep-link format / tracking tag gets wired in later.
- */
-function toolUrl(query: string): string {
-  return `https://www.homedepot.com/s/${encodeURIComponent(query)}`;
 }
 
 export function ActionCard({ items }: { items: ToolItem[] }) {
   return (
     <section className="card p-4">
-      <div className="flex items-baseline justify-between gap-2">
-        <h3 className="text-sm font-bold">Recommended Tools</h3>
-        <span className="text-[10px] font-semibold uppercase tracking-[0.1em] text-ink-faint">
-          Affiliate
-        </span>
-      </div>
+      <h3 className="text-sm font-bold">Recommended Tools</h3>
+      <p className="mt-0.5 text-[11px] leading-snug text-ink-faint">
+        Affiliate links — BuildCalc may earn a commission, at no extra cost to
+        you.
+      </p>
       <div className="mt-3 grid grid-cols-3 gap-2">
         {items.map((t) => (
           <a
             key={t.name}
-            href={toolUrl(t.query)}
+            href={t.url}
             target="_blank"
-            rel="noopener noreferrer sponsored"
+            rel="sponsored noopener noreferrer"
             className="tap flex flex-col items-center gap-1.5 rounded-2xl border border-line bg-surface-2 p-3 text-center active:bg-surface-3"
           >
             <span className="text-brand">{t.icon}</span>
             <span className="text-xs font-bold leading-tight">{t.name}</span>
             <span className="text-[10px] leading-tight text-ink-faint">
               {t.detail}
+            </span>
+            <span className="text-[9px] font-semibold uppercase tracking-[0.08em] text-ink-faint/70">
+              Ad
             </span>
           </a>
         ))}
