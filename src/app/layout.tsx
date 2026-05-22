@@ -64,7 +64,10 @@ export const metadata: Metadata = {
     url: '/',
   },
   icons: {
-    icon: `${basePath}/favicon.png`,
+    icon: [
+      { url: `${basePath}/favicon.ico`, sizes: 'any' },
+      { url: `${basePath}/favicon.png`, type: 'image/png', sizes: '96x96' },
+    ],
     apple: `${basePath}/apple-touch-icon.png`,
   },
   formatDetection: { telephone: false },
