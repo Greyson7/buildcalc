@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     description:
       'Cubic yards, bag counts, waste factor and live cost for slabs and footings.',
     url: '/concrete/',
+    images: ['/og-image.png'],
   },
 };
 

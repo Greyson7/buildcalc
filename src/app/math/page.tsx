@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     description:
       'Fraction-accurate dimensional math and one-tap job-site conversions.',
     url: '/math/',
+    images: ['/og-image.png'],
   },
 };
 

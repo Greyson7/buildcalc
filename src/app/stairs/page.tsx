@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     description:
       'Exact riser height, tread depth and stringer length with a live diagram and IRC code checks.',
     url: '/stairs/',
+    images: ['/og-image.png'],
   },
 };
 

@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     description:
       'Deck board count, joists, linear feet and screws from your deck size.',
     url: '/decking/',
+    images: ['/og-image.png'],
   },
 };
 

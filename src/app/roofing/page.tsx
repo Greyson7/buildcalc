@@ -13,6 +13,7 @@ export const metadata: Metadata = {
     description:
       'Roof area, roofing squares and shingle bundles from your footprint and pitch.',
     url: '/roofing/',
+    images: ['/og-image.png'],
   },
 };
 

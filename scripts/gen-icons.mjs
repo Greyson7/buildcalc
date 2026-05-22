@@ -68,4 +68,28 @@ const ico = Buffer.concat([
 await writeFile(join(PUBLIC, 'favicon.ico'), ico);
 console.log('wrote favicon.ico');
 
+// Open Graph / social share card — 1200x630, the frame every platform crops
+// link previews to. Pre-generated and committed so the static export ships a
+// real preview image; wired up via openGraph.images in src/app/layout.tsx.
+const ogSvg = `
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="og-grad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ff9242"/>
+      <stop offset="1" stop-color="#e0610a"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#0c0f14"/>
+  <g transform="translate(600 138) scale(0.42) translate(-260 -266)">
+    <path fill="url(#og-grad)" d="M116 396 L116 324 L188 324 L188 252 L260 252 L260 180 L332 180 L332 108 L404 108 L404 396 Z"/>
+    <rect x="116" y="404" width="288" height="20" rx="10" fill="#3b9eff"/>
+  </g>
+  <text x="600" y="382" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="128" font-weight="bold" fill="#f3f5f8">BuildCalc</text>
+  <text x="600" y="460" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="bold" fill="#ff7a1a">Free Construction Calculators</text>
+  <text x="600" y="528" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="29" fill="#8b97a8">Stairs &#183; Concrete &#183; Roofing &#183; Decking &#183; Quick Math</text>
+  <rect x="0" y="624" width="1200" height="6" fill="url(#og-grad)"/>
+</svg>`;
+await sharp(Buffer.from(ogSvg)).png().toFile(join(PUBLIC, 'og-image.png'));
+console.log('wrote og-image.png');
+
 console.log('icons done');

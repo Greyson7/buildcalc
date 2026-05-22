@@ -62,6 +62,20 @@ export const metadata: Metadata = {
     title: 'BuildCalc — Free Construction Calculator',
     description,
     url: '/',
+    images: [
+      {
+        url: `${basePath}/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: 'BuildCalc — free construction calculators',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'BuildCalc — Free Construction Calculator',
+    description,
+    images: [`${basePath}/og-image.png`],
   },
   icons: {
     icon: [
