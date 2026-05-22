@@ -96,7 +96,7 @@ export function ConcreteCalculator() {
         {/* Visual — sticky near the top so it updates while you edit below.
             pt-2 keeps an opaque strip above the card so nothing peeks through. */}
         <div
-          className="sticky z-10 bg-surface-0 pb-4 pt-2 lg:order-2 lg:pb-0 lg:pt-0"
+          className="mb-4 lg:mb-0 lg:sticky lg:z-10 lg:bg-surface-0 lg:order-2"
           style={{ top: STICKY_TOP }}
         >
           <ConcreteDiagram

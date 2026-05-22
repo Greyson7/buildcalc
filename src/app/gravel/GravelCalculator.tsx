@@ -85,7 +85,7 @@ export function GravelCalculator() {
       <div className="mt-4 lg:grid lg:grid-cols-2 lg:items-start lg:gap-6">
         {/* Visual — sticky near the top so it updates while you edit below. */}
         <div
-          className="sticky z-10 bg-surface-0 pb-4 pt-2 lg:order-2 lg:pb-0 lg:pt-0"
+          className="mb-4 lg:mb-0 lg:sticky lg:z-10 lg:bg-surface-0 lg:order-2"
           style={{ top: STICKY_TOP }}
         >
           <GravelDiagram
