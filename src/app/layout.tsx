@@ -28,9 +28,24 @@ const description =
 // Leave unset when verifying via a DNS TXT record instead.
 const gscVerification = process.env.NEXT_PUBLIC_GSC_VERIFICATION;
 
+// Structured data describing the app — helps search engines and rich results.
+const webAppJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebApplication',
+  name: 'BuildCalc',
+  url: siteUrl,
+  description,
+  applicationCategory: 'UtilitiesApplication',
+  operatingSystem: 'Any',
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: 'BuildCalc — Construction Calculator',
+  title: {
+    default: 'BuildCalc — Construction Calculator',
+    template: '%s · BuildCalc',
+  },
   description,
   applicationName: 'BuildCalc',
   manifest: `${basePath}/manifest.webmanifest`,
@@ -74,6 +89,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`dark ${inter.variable}`}>
       <body className="min-h-[100dvh]">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(webAppJsonLd) }}
+        />
         <ClientBoot />
         <Analytics />
         <AppHeader />

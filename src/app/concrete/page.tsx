@@ -1,284 +1,84 @@
-'use client';
+import type { Metadata } from 'next';
+import { Faq, type QA } from '@/components/Faq';
+import { ConcreteCalculator } from './ConcreteCalculator';
 
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { type BagSize, calculateConcrete, formatCurrency } from '@/lib/concrete';
-import type { LengthUnit } from '@/lib/imperial';
-import { trackCalculate, trackFirstModule } from '@/lib/analytics';
-import { amazon } from '@/lib/affiliate';
-import { useCalculatorStore } from '@/store/useCalculatorStore';
-import { ActionCard } from '@/components/ActionCard';
-import { ConcreteDiagram } from '@/components/ConcreteDiagram';
-import { BucketIcon, LevelIcon, TrowelIcon } from '@/components/icons';
-import { Button } from '@/components/ui/Button';
-import { NumberField } from '@/components/ui/NumberField';
-import { Segmented } from '@/components/ui/Segmented';
-import { Stepper } from '@/components/ui/Stepper';
-import { SummaryCard, SummaryRow } from '@/components/ui/SummaryCard';
-import { UnitField } from '@/components/ui/UnitField';
+export const metadata: Metadata = {
+  title: 'Concrete Calculator — Cubic Yards & Bags',
+  description:
+    'Free concrete calculator: cubic yards, 60 lb and 80 lb bag counts, waste factor and live cost for slabs and footings. Mixed-unit input, works offline.',
+  alternates: { canonical: '/concrete/' },
+  openGraph: {
+    title: 'Concrete Calculator — Cubic Yards & Bags · BuildCalc',
+    description:
+      'Cubic yards, bag counts, waste factor and live cost for slabs and footings.',
+    url: '/concrete/',
+  },
+};
 
-const STICKY_TOP = 'calc(56px + var(--safe-top))';
-
-const PLAN_UNITS: LengthUnit[] = ['ft', 'in', 'yd'];
-const DEPTH_UNITS: LengthUnit[] = ['in', 'ft'];
-const BAG_OPTIONS = [
-  { label: '60 lb', value: 60 as BagSize },
-  { label: '80 lb', value: 80 as BagSize },
-];
-const WASTE_PRESETS = [0, 5, 10, 15];
-
-// Swap a product by changing the amazon() argument (ASIN or search), or
-// drop in an industry-partner URL directly.
-const CONCRETE_TOOLS = [
+const FAQ: QA[] = [
   {
-    name: 'Bull Float',
-    detail: 'Finish the slab',
-    url: amazon('bull float concrete'),
-    icon: <TrowelIcon className="h-6 w-6" />,
+    q: 'How many 80 lb bags of concrete are in a cubic yard?',
+    a: 'An 80-pound bag of concrete mix yields about 0.6 cubic feet. A cubic yard is 27 cubic feet, so that works out to roughly 45 bags of 80 lb mix per cubic yard. A 60-pound bag yields about 0.45 cubic feet — about 60 bags per cubic yard.',
   },
   {
-    name: 'Mixing Tub',
-    detail: 'Mix the bags',
-    url: amazon('concrete mixing tub'),
-    icon: <BucketIcon className="h-6 w-6" />,
+    q: 'How do I calculate concrete for a slab?',
+    a: 'Multiply the slab length by its width by its thickness to get the volume, then divide cubic feet by 27 to get cubic yards. BuildCalc lets you mix units, so a 10 by 10 foot slab at 4 inches thick is entered directly — about 1.23 cubic yards before waste.',
   },
   {
-    name: '4 ft Level',
-    detail: 'Screed it flat',
-    url: amazon('4 ft level'),
-    icon: <LevelIcon className="h-6 w-6" />,
+    q: 'How many cubic feet are in a cubic yard?',
+    a: 'There are 27 cubic feet in one cubic yard (3 feet by 3 feet by 3 feet). Ready-mix concrete is ordered by the cubic yard.',
+  },
+  {
+    q: 'What waste factor should I use for concrete?',
+    a: 'A waste factor of 5 to 10 percent is standard. It covers spillage, over-excavation and uneven subgrade. For rough or hand-dug footings, lean toward 10 percent. BuildCalc folds the waste factor into both the yardage and the bag count.',
+  },
+  {
+    q: 'Should I use 60 lb or 80 lb concrete bags?',
+    a: '80-pound bags mean fewer bags to mix and carry, so they suit larger pours. 60-pound bags are lighter and easier for small jobs and repairs. For anything over about half a cubic yard, ready-mix delivery is usually cheaper than bags.',
+  },
+  {
+    q: 'How do I estimate concrete for multiple footings?',
+    a: 'Enter one footing’s dimensions, then set the pour count to the number of identical footings. The calculator multiplies the volume, bag count and cost across all of them at once.',
   },
 ];
 
 export default function ConcretePage() {
-  const concrete = useCalculatorStore((s) => s.concrete);
-  const setConcrete = useCalculatorStore((s) => s.setConcrete);
-  const resetConcrete = useCalculatorStore((s) => s.resetConcrete);
-
-  // Display units are a view concern — kept local; values persist as inches.
-  const [lengthUnit, setLengthUnit] = useState<LengthUnit>('ft');
-  const [widthUnit, setWidthUnit] = useState<LengthUnit>('ft');
-  const [depthUnit, setDepthUnit] = useState<LengthUnit>('in');
-
-  // Analytics — first module of the session, and a one-time "Calculate" event.
-  useEffect(() => trackFirstModule('Concrete'), []);
-  const calcFired = useRef(false);
-  const updateConcrete = (patch: Parameters<typeof setConcrete>[0]) => {
-    setConcrete(patch);
-    if (!calcFired.current) {
-      calcFired.current = true;
-      trackCalculate('Concrete');
-    }
-  };
-
-  const result = useMemo(() => calculateConcrete(concrete), [concrete]);
-  const hasPrice = result.costByYard != null || result.costByBag != null;
-
   return (
-    <div>
-      <header>
-        <h1 className="text-xl font-extrabold tracking-tight">
-          Concrete Estimator
-        </h1>
-        <p className="text-sm text-ink-dim">
-          Volume, bag count and live cost for slabs &amp; footings.
-        </p>
-      </header>
+    <>
+      <ConcreteCalculator />
 
-      <div className="mt-4 lg:grid lg:grid-cols-2 lg:items-start lg:gap-6">
-        {/* Visual — sticky near the top so it updates while you edit below.
-            pt-2 keeps an opaque strip above the card so nothing peeks through. */}
-        <div
-          className="sticky z-10 bg-surface-0 pb-4 pt-2 lg:order-2 lg:pb-0 lg:pt-0"
-          style={{ top: STICKY_TOP }}
-        >
-          <ConcreteDiagram
-            lengthIn={concrete.length}
-            widthIn={concrete.width}
-            depthIn={concrete.depth}
-            result={result}
-          />
-        </div>
+      <div className="mt-8 space-y-6">
+        <section>
+          <h2 className="text-lg font-extrabold tracking-tight">
+            How the concrete calculator works
+          </h2>
+          <div className="mt-2 space-y-2 text-sm leading-relaxed text-ink-dim">
+            <p>
+              The concrete calculator finds how much concrete a slab, footing or
+              pad needs. It multiplies length, width and depth to get volume in
+              cubic feet, then converts to cubic yards — the unit ready-mix is
+              ordered in — by dividing by 27.
+            </p>
+            <p>
+              You can mix units freely: enter a slab as 20 feet long and 4
+              inches deep without converting anything by hand. Add a waste
+              factor (5 to 10 percent is typical) to cover spillage and uneven
+              subgrade, and it is folded into both the yardage and the bag
+              count. Enter a price per cubic yard or per bag for a live cost
+              estimate.
+            </p>
+          </div>
+        </section>
 
-        {/* Inputs */}
-        <div className="space-y-4 lg:order-1">
-          <section className="card space-y-5 p-4">
-            <UnitField
-              label="Length"
-              valueInches={concrete.length}
-              unit={lengthUnit}
-              units={PLAN_UNITS}
-              onValueChange={(v) => updateConcrete({ length: v })}
-              onUnitChange={setLengthUnit}
-            />
-            <UnitField
-              label="Width"
-              valueInches={concrete.width}
-              unit={widthUnit}
-              units={PLAN_UNITS}
-              onValueChange={(v) => updateConcrete({ width: v })}
-              onUnitChange={setWidthUnit}
-            />
-            <UnitField
-              label="Depth / Thickness"
-              valueInches={concrete.depth}
-              unit={depthUnit}
-              units={DEPTH_UNITS}
-              onValueChange={(v) => updateConcrete({ depth: v })}
-              onUnitChange={setDepthUnit}
-            />
-            <Stepper
-              label="Identical Pours"
-              value={concrete.count}
-              min={1}
-              max={99}
-              onChange={(v) => updateConcrete({ count: v })}
-              suffix={concrete.count === 1 ? 'pour' : 'pours'}
-            />
-
-            {/* Waste factor — quick presets plus a slider for custom values */}
-            <div>
-              <div className="flex items-baseline justify-between gap-2">
-                <label className="field-label">Waste Factor</label>
-                <span className="font-mono text-sm font-bold text-brand-light">
-                  {concrete.wastePct}%
-                </span>
-              </div>
-              <div className="mt-1.5 flex gap-1.5">
-                {WASTE_PRESETS.map((p) => (
-                  <button
-                    key={p}
-                    type="button"
-                    onClick={() => updateConcrete({ wastePct: p })}
-                    className={`tap flex-1 rounded-xl text-sm font-bold ${
-                      concrete.wastePct === p
-                        ? 'bg-brand text-surface-0'
-                        : 'bg-surface-2 text-ink-dim active:bg-surface-3'
-                    }`}
-                  >
-                    {p}%
-                  </button>
-                ))}
-              </div>
-              <input
-                type="range"
-                className="range mt-1 w-full"
-                min={0}
-                max={25}
-                step={1}
-                value={concrete.wastePct}
-                onChange={(e) =>
-                  updateConcrete({ wastePct: Math.round(Number(e.target.value)) })
-                }
-                aria-label="Custom waste factor"
-              />
-              <p className="text-xs text-ink-faint">
-                Extra ordered for spillage and uneven subgrade — folded into
-                every total below.
-              </p>
-            </div>
-          </section>
-
-          <section className="card space-y-5 p-4">
-            <Segmented
-              label="Bag Size"
-              options={BAG_OPTIONS}
-              value={concrete.bagSize}
-              onChange={(v) => updateConcrete({ bagSize: v })}
-            />
-            <div className="grid grid-cols-2 gap-3">
-              <NumberField
-                label="Price / yd³"
-                prefix="$"
-                placeholder="—"
-                value={concrete.pricePerYard}
-                onChange={(v) => updateConcrete({ pricePerYard: v })}
-              />
-              <NumberField
-                label="Price / bag"
-                prefix="$"
-                placeholder="—"
-                value={concrete.pricePerBag}
-                onChange={(v) => updateConcrete({ pricePerBag: v })}
-              />
-            </div>
-          </section>
-
-          <Button variant="ghost" fullWidth onClick={resetConcrete}>
-            Reset to defaults
-          </Button>
-        </div>
+        <section>
+          <h2 className="text-lg font-extrabold tracking-tight">
+            Concrete calculator FAQ
+          </h2>
+          <div className="mt-3">
+            <Faq items={FAQ} />
+          </div>
+        </section>
       </div>
-
-      {/* Results */}
-      <div className="mt-5 space-y-4 lg:grid lg:grid-cols-2 lg:gap-6 lg:space-y-0">
-        <SummaryCard title="Estimate">
-          <SummaryRow
-            label="Concrete needed"
-            big
-            tone="brand"
-            value={result.valid ? `${result.cubicYards.toFixed(2)} yd³` : '—'}
-            hint={
-              result.valid
-                ? `${result.cubicYardsNet.toFixed(2)} yd³ before ${concrete.wastePct}% waste`
-                : undefined
-            }
-          />
-          <SummaryRow
-            label="Volume"
-            value={result.valid ? `${result.cubicFeet.toFixed(1)} ft³` : '—'}
-          />
-          <SummaryRow
-            label={`${result.bagSize} lb bags`}
-            big
-            tone="brand"
-            value={result.valid ? result.bags : '—'}
-            hint={
-              result.valid
-                ? `${result.premixWeightLbs.toLocaleString()} lb of dry mix (incl. ${concrete.wastePct}% waste)`
-                : undefined
-            }
-          />
-        </SummaryCard>
-
-        <SummaryCard title="Live Material Cost">
-          {hasPrice ? (
-            <>
-              {result.costByYard != null && (
-                <SummaryRow
-                  label="Ready-mix (by yd³)"
-                  big
-                  tone="good"
-                  value={formatCurrency(result.costByYard)}
-                  hint={`${result.cubicYards.toFixed(2)} yd³ ordered`}
-                />
-              )}
-              {result.costByBag != null && (
-                <SummaryRow
-                  label="Bagged (by bag)"
-                  big
-                  tone="good"
-                  value={formatCurrency(result.costByBag)}
-                  hint={`${result.bags} × ${result.bagSize} lb bags`}
-                />
-              )}
-            </>
-          ) : (
-            <div className="px-4 py-6 text-center text-sm text-ink-faint">
-              Add a price per yd³ or per bag to see a live cost estimate.
-            </div>
-          )}
-        </SummaryCard>
-      </div>
-
-      {/* Monetization surface */}
-      <div className="mt-4">
-        <ActionCard items={CONCRETE_TOOLS} />
-      </div>
-
-      <p className="mt-4 px-1 text-xs text-ink-faint">
-        Bag yields use manufacturer averages (80 lb ≈ 0.60 ft³, 60 lb ≈ 0.45
-        ft³). Order a full bag extra for safety.
-      </p>
-    </div>
+    </>
   );
 }
