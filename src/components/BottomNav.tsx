@@ -3,10 +3,14 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
+  AreaIcon,
   ConcreteIcon,
   DeckIcon,
+  DrywallIcon,
+  GravelIcon,
   HomeIcon,
   QuickMathIcon,
+  RollerIcon,
   RoofIcon,
   StairsIcon,
 } from './icons';
@@ -18,6 +22,10 @@ const TABS = [
   { href: '/concrete', label: 'Concrete', Icon: ConcreteIcon },
   { href: '/roofing', label: 'Roofing', Icon: RoofIcon },
   { href: '/decking', label: 'Decking', Icon: DeckIcon },
+  { href: '/square-footage', label: 'Area', Icon: AreaIcon },
+  { href: '/gravel', label: 'Gravel', Icon: GravelIcon },
+  { href: '/drywall', label: 'Drywall', Icon: DrywallIcon },
+  { href: '/paint', label: 'Paint', Icon: RollerIcon },
 ] as const;
 
 /** Strip a trailing slash so `/stairs/` matches the `/stairs` tab href. */
@@ -37,7 +45,7 @@ export function BottomNav() {
       className="fixed inset-x-0 bottom-0 z-20 border-t border-line bg-surface-1/95 backdrop-blur-md"
       style={{ paddingBottom: 'var(--safe-bottom)' }}
     >
-      <div className="mx-auto flex max-w-3xl items-stretch justify-around px-1">
+      <div className="mx-auto flex max-w-3xl items-stretch overflow-x-auto px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
         {TABS.map(({ href, label, Icon }) => {
           const active = pathname === href;
           return (
@@ -45,7 +53,7 @@ export function BottomNav() {
               key={href}
               href={href}
               aria-current={active ? 'page' : undefined}
-              className="tap flex flex-1 flex-col items-center justify-center gap-1 py-2.5"
+              className="tap flex shrink-0 grow basis-[4.25rem] flex-col items-center justify-center gap-1 py-2.5"
             >
               <Icon
                 className={`h-6 w-6 ${active ? 'text-brand' : 'text-ink-faint'}`}

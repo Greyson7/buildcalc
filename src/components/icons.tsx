@@ -228,6 +228,26 @@ export function ChalkLineIcon({ className }: IconProps) {
   );
 }
 
+export function RollerIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...stroke}>
+      <rect x="3" y="4" width="14" height="7" rx="2" />
+      <path d="M17 7.5h2a2 2 0 012 2V12a2 2 0 01-2 2h-7" />
+      <path d="M12 14v2a1 1 0 01-1 1h-1v4" />
+    </svg>
+  );
+}
+
+export function BrushIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...stroke}>
+      <path d="M9 3h6v8H9z" />
+      <path d="M9 11h6l-1 4H10z" />
+      <path d="M11 15l-1 6h4l-1-6" />
+    </svg>
+  );
+}
+
 // --- Roadmap module icons -------------------------------------------------
 
 export function RoofIcon({ className }: IconProps) {
@@ -244,6 +264,37 @@ export function DeckIcon({ className }: IconProps) {
     <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...stroke}>
       <rect x="3" y="5" width="18" height="14" rx="1.5" />
       <path d="M3 10h18M3 14h18" />
+    </svg>
+  );
+}
+
+export function AreaIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...stroke}>
+      <rect x="5" y="8" width="14" height="11" rx="1.5" />
+      <path d="M5 4.5h14" />
+      <path d="M5 3v3M19 3v3" />
+    </svg>
+  );
+}
+
+export function GravelIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...stroke}>
+      <path d="M3 20h18" />
+      <path d="M4.5 20c1.5-8 13.5-8 15 0" />
+      <circle cx="9" cy="16" r="1.3" />
+      <circle cx="14.5" cy="14.5" r="1.3" />
+      <circle cx="12" cy="18" r="1.3" />
+    </svg>
+  );
+}
+
+export function DrywallIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...stroke}>
+      <rect x="3" y="4" width="18" height="16" rx="1.5" />
+      <path d="M12 4v16M3 12h18" />
     </svg>
   );
 }

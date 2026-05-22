@@ -3,10 +3,14 @@
 import Link from 'next/link';
 import { motion } from 'framer-motion';
 import {
+  AreaIcon,
   ArrowRightIcon,
   ConcreteIcon,
   DeckIcon,
+  DrywallIcon,
+  GravelIcon,
   QuickMathIcon,
+  RollerIcon,
   RoofIcon,
   StairsIcon,
 } from '@/components/icons';
@@ -43,6 +47,30 @@ const MODULES = [
     title: 'Decking Calculator',
     desc: 'Deck boards, joists and screws for any rectangular deck.',
     Icon: DeckIcon,
+  },
+  {
+    href: '/square-footage',
+    title: 'Square Footage Calculator',
+    desc: 'Total area in square feet, yards, meters and acres.',
+    Icon: AreaIcon,
+  },
+  {
+    href: '/gravel',
+    title: 'Gravel Calculator',
+    desc: 'Cubic yards, tons and cost for gravel, stone or sand.',
+    Icon: GravelIcon,
+  },
+  {
+    href: '/drywall',
+    title: 'Drywall Calculator',
+    desc: 'Sheets and screws to board out walls and ceilings.',
+    Icon: DrywallIcon,
+  },
+  {
+    href: '/paint',
+    title: 'Paint Calculator',
+    desc: 'Gallons to paint a room, doors and windows subtracted.',
+    Icon: RollerIcon,
   },
 ];
 

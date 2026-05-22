@@ -51,19 +51,66 @@ export interface DeckingState {
   pricePerBoard: number | null;
 }
 
+export interface GravelState {
+  length: number; // inches
+  width: number; // inches
+  depth: number; // inches
+  wastePct: number;
+  pricePerTon: number | null;
+}
+
+export interface PaintState {
+  length: number; // inches — room length
+  width: number; // inches — room width
+  height: number; // inches — ceiling height
+  coats: number;
+  doors: number;
+  windows: number;
+  coverage: number; // square feet covered per gallon
+  pricePerGallon: number | null;
+}
+
+export interface DrywallState {
+  length: number; // inches — room length
+  width: number; // inches — room width
+  height: number; // inches — ceiling height
+  includeCeiling: boolean;
+  sheetSqFt: number; // area of one drywall sheet
+  wastePct: number;
+  pricePerSheet: number | null;
+}
+
+export interface AreaState {
+  length: number; // inches
+  width: number; // inches
+  count: number; // identical areas
+}
+
 interface CalculatorStore {
   stairs: StairState;
   concrete: ConcreteState;
   roofing: RoofingState;
   decking: DeckingState;
+  gravel: GravelState;
+  paint: PaintState;
+  drywall: DrywallState;
+  area: AreaState;
   setStairs: (patch: Partial<StairState>) => void;
   setConcrete: (patch: Partial<ConcreteState>) => void;
   setRoofing: (patch: Partial<RoofingState>) => void;
   setDecking: (patch: Partial<DeckingState>) => void;
+  setGravel: (patch: Partial<GravelState>) => void;
+  setPaint: (patch: Partial<PaintState>) => void;
+  setDrywall: (patch: Partial<DrywallState>) => void;
+  setArea: (patch: Partial<AreaState>) => void;
   resetStairs: () => void;
   resetConcrete: () => void;
   resetRoofing: () => void;
   resetDecking: () => void;
+  resetGravel: () => void;
+  resetPaint: () => void;
+  resetDrywall: () => void;
+  resetArea: () => void;
 }
 
 export const STAIR_DEFAULTS: StairState = {
@@ -104,6 +151,41 @@ export const DECKING_DEFAULTS: DeckingState = {
   pricePerBoard: null,
 };
 
+export const GRAVEL_DEFAULTS: GravelState = {
+  length: 240, // 20'
+  width: 120, // 10'
+  depth: 3, // 3" — depth defaults to inches in the UI
+  wastePct: 10,
+  pricePerTon: null,
+};
+
+export const PAINT_DEFAULTS: PaintState = {
+  length: 144, // 12'
+  width: 144, // 12'
+  height: 96, // 8' ceiling
+  coats: 2,
+  doors: 1,
+  windows: 2,
+  coverage: 350, // square feet per gallon — typical for one coat
+  pricePerGallon: null,
+};
+
+export const DRYWALL_DEFAULTS: DrywallState = {
+  length: 144, // 12'
+  width: 144, // 12'
+  height: 96, // 8' ceiling
+  includeCeiling: true,
+  sheetSqFt: 32, // a 4x8 sheet
+  wastePct: 10,
+  pricePerSheet: null,
+};
+
+export const AREA_DEFAULTS: AreaState = {
+  length: 144, // 12'
+  width: 120, // 10'
+  count: 1,
+};
+
 // localStorage is unavailable during the static build — fall back to a no-op.
 const safeStorage = createJSONStorage(() =>
   typeof window !== 'undefined'
@@ -122,6 +204,10 @@ export const useCalculatorStore = create<CalculatorStore>()(
       concrete: { ...CONCRETE_DEFAULTS },
       roofing: { ...ROOFING_DEFAULTS },
       decking: { ...DECKING_DEFAULTS },
+      gravel: { ...GRAVEL_DEFAULTS },
+      paint: { ...PAINT_DEFAULTS },
+      drywall: { ...DRYWALL_DEFAULTS },
+      area: { ...AREA_DEFAULTS },
       setStairs: (patch) => set((s) => ({ stairs: { ...s.stairs, ...patch } })),
       setConcrete: (patch) =>
         set((s) => ({ concrete: { ...s.concrete, ...patch } })),
@@ -129,10 +215,19 @@ export const useCalculatorStore = create<CalculatorStore>()(
         set((s) => ({ roofing: { ...s.roofing, ...patch } })),
       setDecking: (patch) =>
         set((s) => ({ decking: { ...s.decking, ...patch } })),
+      setGravel: (patch) => set((s) => ({ gravel: { ...s.gravel, ...patch } })),
+      setPaint: (patch) => set((s) => ({ paint: { ...s.paint, ...patch } })),
+      setDrywall: (patch) =>
+        set((s) => ({ drywall: { ...s.drywall, ...patch } })),
+      setArea: (patch) => set((s) => ({ area: { ...s.area, ...patch } })),
       resetStairs: () => set({ stairs: { ...STAIR_DEFAULTS } }),
       resetConcrete: () => set({ concrete: { ...CONCRETE_DEFAULTS } }),
       resetRoofing: () => set({ roofing: { ...ROOFING_DEFAULTS } }),
       resetDecking: () => set({ decking: { ...DECKING_DEFAULTS } }),
+      resetGravel: () => set({ gravel: { ...GRAVEL_DEFAULTS } }),
+      resetPaint: () => set({ paint: { ...PAINT_DEFAULTS } }),
+      resetDrywall: () => set({ drywall: { ...DRYWALL_DEFAULTS } }),
+      resetArea: () => set({ area: { ...AREA_DEFAULTS } }),
     }),
     {
       name: 'buildcalc-state',
@@ -148,6 +243,10 @@ export const useCalculatorStore = create<CalculatorStore>()(
           concrete: { ...current.concrete, ...(p.concrete ?? {}) },
           roofing: { ...current.roofing, ...(p.roofing ?? {}) },
           decking: { ...current.decking, ...(p.decking ?? {}) },
+          gravel: { ...current.gravel, ...(p.gravel ?? {}) },
+          paint: { ...current.paint, ...(p.paint ?? {}) },
+          drywall: { ...current.drywall, ...(p.drywall ?? {}) },
+          area: { ...current.area, ...(p.area ?? {}) },
         };
       },
       // Rehydrate manually after mount (see ClientBoot) so the first client
