@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { formatFeetInches, formatInches } from '@/lib/imperial';
 import { calculateStairs } from '@/lib/stairs';
 import { trackCalculate, trackFirstModule } from '@/lib/analytics';
@@ -8,6 +8,7 @@ import { amazon } from '@/lib/affiliate';
 import { useCalculatorStore } from '@/store/useCalculatorStore';
 import { ActionCard } from '@/components/ActionCard';
 import { StairDiagram } from '@/components/StairDiagram';
+import { StarterHint } from '@/components/StarterHint';
 import { SawIcon, SquareIcon, TapeIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
 import { FractionalInput } from '@/components/ui/FractionalInput';
@@ -51,8 +52,10 @@ export function StairsCalculator() {
   // Analytics — first module of the session, and a one-time "Calculate" event.
   useEffect(() => trackFirstModule('Stairs'), []);
   const calcFired = useRef(false);
+  const [touched, setTouched] = useState(false);
   const updateStairs = (patch: Parameters<typeof setStairs>[0]) => {
     setStairs(patch);
+    setTouched(true);
     if (!calcFired.current) {
       calcFired.current = true;
       trackCalculate('Stairs');
@@ -93,6 +96,7 @@ export function StairsCalculator() {
 
         {/* Inputs */}
         <div className="space-y-4 lg:order-1">
+          {!touched && <StarterHint />}
           <section className="card space-y-5 p-4">
             <p className="text-xs leading-relaxed text-ink-dim">
               <span className="font-bold text-ink">Total Rise</span> is required.

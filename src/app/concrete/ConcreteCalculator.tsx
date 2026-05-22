@@ -8,6 +8,7 @@ import { amazon } from '@/lib/affiliate';
 import { useCalculatorStore } from '@/store/useCalculatorStore';
 import { ActionCard } from '@/components/ActionCard';
 import { ConcreteDiagram } from '@/components/ConcreteDiagram';
+import { StarterHint } from '@/components/StarterHint';
 import { BucketIcon, LevelIcon, TrowelIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
 import { NumberField } from '@/components/ui/NumberField';
@@ -62,8 +63,10 @@ export function ConcreteCalculator() {
   // Analytics — first module of the session, and a one-time "Calculate" event.
   useEffect(() => trackFirstModule('Concrete'), []);
   const calcFired = useRef(false);
+  const [touched, setTouched] = useState(false);
   const updateConcrete = (patch: Parameters<typeof setConcrete>[0]) => {
     setConcrete(patch);
+    setTouched(true);
     if (!calcFired.current) {
       calcFired.current = true;
       trackCalculate('Concrete');
@@ -101,6 +104,7 @@ export function ConcreteCalculator() {
 
         {/* Inputs */}
         <div className="space-y-4 lg:order-1">
+          {!touched && <StarterHint />}
           <section className="card space-y-5 p-4">
             <UnitField
               label="Length"

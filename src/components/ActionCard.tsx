@@ -37,10 +37,15 @@ export function ActionCard({
 }) {
   return (
     <section className="card p-4">
-      <h3 className="text-sm font-bold">Recommended Tools</h3>
+      <div className="flex items-baseline justify-between gap-2">
+        <h3 className="text-sm font-bold">Tools for this job</h3>
+        <span className="shrink-0 text-[10px] font-semibold uppercase tracking-[0.08em] text-ink-faint">
+          Sponsored
+        </span>
+      </div>
       <p className="mt-0.5 text-[11px] leading-snug text-ink-faint">
-        As an Amazon Associate, BuildCalc earns from qualifying purchases — at
-        no extra cost to you.
+        Gear we&apos;d reach for on this job. As an Amazon Associate, BuildCalc
+        earns from qualifying purchases — at no extra cost to you.
       </p>
       <div className="mt-3 grid grid-cols-3 gap-2">
         {items.map((t) => (
@@ -50,15 +55,12 @@ export function ActionCard({
             target="_blank"
             rel="sponsored noopener noreferrer"
             onClick={() => trackAffiliateClick(module, t.name)}
-            className="tap flex flex-col items-center gap-1.5 rounded-2xl border border-line bg-surface-2 p-3 text-center active:bg-surface-3"
+            className="tap flex flex-col items-center gap-1.5 rounded-2xl border border-line bg-surface-2 p-3 text-center transition-colors hover:border-brand/40 active:bg-surface-3"
           >
             <span className="text-brand">{t.icon}</span>
             <span className="text-xs font-bold leading-tight">{t.name}</span>
             <span className="text-[10px] leading-tight text-ink-faint">
               {t.detail}
-            </span>
-            <span className="text-[9px] font-semibold uppercase tracking-[0.08em] text-ink-faint/70">
-              Ad
             </span>
           </a>
         ))}
