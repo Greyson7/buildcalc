@@ -22,7 +22,7 @@ const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL || 'https://buildprocalc.com';
 
 const description =
-  'Offline-first stair, concrete and imperial calculators. A fast, modern job-site tool — not a skeuomorphic button grid.';
+  'Free online construction calculators for stairs, concrete and feet-inch-fraction math. Works right in your browser — no app, no sign-up, works offline.';
 
 // Google Search Console verification token (URL-prefix property method).
 // Leave unset when verifying via a DNS TXT record instead.
@@ -43,7 +43,7 @@ const webAppJsonLd = {
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: 'BuildCalc — Construction Calculator',
+    default: 'BuildCalc — Free Construction Calculator',
     template: '%s · BuildCalc',
   },
   description,
@@ -59,7 +59,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'BuildCalc',
-    title: 'BuildCalc — Construction Calculator',
+    title: 'BuildCalc — Free Construction Calculator',
     description,
     url: '/',
   },

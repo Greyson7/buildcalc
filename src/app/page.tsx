@@ -17,19 +17,19 @@ const MODULES = [
   {
     href: '/stairs',
     title: 'Stair Calculator',
-    desc: 'Risers, treads, stringer cut list and a live, code-checked diagram.',
+    desc: 'Even risers, the right tread depth and a stringer cut list — checked against code.',
     Icon: StairsIcon,
   },
   {
     href: '/concrete',
     title: 'Concrete Estimator',
-    desc: 'Cubic yards, bag counts and live material cost for any pour.',
+    desc: 'How much to order — cubic yards, bags and cost for slabs, footings and posts.',
     Icon: ConcreteIcon,
   },
   {
     href: '/math',
     title: 'Quick Math',
-    desc: 'Fraction-accurate dimensional math and fast job-site conversions.',
+    desc: 'Add and subtract feet, inches and fractions, plus instant unit conversions.',
     Icon: QuickMathIcon,
   },
 ];
@@ -40,9 +40,9 @@ const COMING_SOON = [
 ];
 
 const FEATURES = [
+  ['Free', 'No account'],
+  ['No install', 'Runs in browser'],
   ['Offline', 'No signal needed'],
-  ['1/16" precise', 'True fractions'],
-  ['Code-aware', 'IRC checks'],
 ];
 
 export default function HomePage() {
@@ -50,13 +50,14 @@ export default function HomePage() {
     <div className="space-y-6">
       <section className="pt-2">
         <h1 className="text-[26px] font-extrabold leading-tight tracking-tight">
-          Build it right,
+          The math your phone
           <br />
-          <span className="text-brand">the first time.</span>
+          <span className="text-brand">calculator can&apos;t do.</span>
         </h1>
         <p className="mt-2 text-sm text-ink-dim">
-          Fast, modern construction math — fractional inputs, live diagrams and
-          building-code checks. Works fully offline on the job site.
+          Add feet, inches and fractions, lay out stairs to code, size up a
+          concrete pour — free, right in your browser. No app to install, no
+          sign-up.
         </p>
       </section>
 
@@ -111,6 +112,19 @@ export default function HomePage() {
             ))}
           </div>
         </div>
+      </section>
+
+      <section className="card p-4">
+        <h2 className="text-base font-extrabold tracking-tight">
+          Why not just use a phone calculator?
+        </h2>
+        <p className="mt-1.5 text-sm leading-relaxed text-ink-dim">
+          A phone calculator works in plain decimals. It can&apos;t add
+          5 ft 7 in to 2 ft 10-1/2 in, tell you how many 80 lb bags fill a
+          footing, or flag a stair riser that fails code. BuildCalc is built for
+          the measurements construction actually uses — feet, inches and
+          sixteenths — so the numbers come out right the first time.
+        </p>
       </section>
 
       <section className="grid grid-cols-3 gap-2">
