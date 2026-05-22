@@ -259,6 +259,32 @@ export default function ConcreteBagsGuidePage() {
 
         <section>
           <h2 className="text-lg font-extrabold tracking-tight">
+            Related guides
+          </h2>
+          <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-ink-dim">
+            <li>
+              <Link
+                href="/how-to-calculate-stair-stringers/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How to calculate stair stringers
+              </Link>{' '}
+              — math, IRC code limits and a worked example.
+            </li>
+            <li>
+              <Link
+                href="/how-much-paint-for-a-12x12-room/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How much paint for a 12×12 room?
+              </Link>{' '}
+              — wall area, doors/windows and coats.
+            </li>
+          </ul>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-extrabold tracking-tight">
             Related calculators
           </h2>
           <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-ink-dim">

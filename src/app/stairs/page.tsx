@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { Faq, type QA } from '@/components/Faq';
 import { SiteFooter } from '@/components/SiteFooter';
 import { StairsCalculator } from './StairsCalculator';
@@ -81,6 +82,21 @@ export default function StairsPage() {
           <div className="mt-3">
             <Faq items={FAQ} />
           </div>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-extrabold tracking-tight">Guides</h2>
+          <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-ink-dim">
+            <li>
+              <Link
+                href="/how-to-calculate-stair-stringers/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How to calculate stair stringers (with IRC code rules)
+              </Link>{' '}
+              — math, code limits and a worked example for a 9 ft rise.
+            </li>
+          </ul>
         </section>
       </div>
 

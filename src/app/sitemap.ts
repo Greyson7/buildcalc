@@ -20,6 +20,8 @@ const ROUTES: { path: string; priority: number }[] = [
   { path: '/paint/', priority: 0.8 },
   { path: '/mulch/', priority: 0.8 },
   { path: '/how-many-bags-of-concrete-for-a-10x10-slab/', priority: 0.7 },
+  { path: '/how-to-calculate-stair-stringers/', priority: 0.7 },
+  { path: '/how-much-paint-for-a-12x12-room/', priority: 0.7 },
   { path: '/terms/', priority: 0.3 },
   { path: '/privacy/', priority: 0.3 },
 ];
