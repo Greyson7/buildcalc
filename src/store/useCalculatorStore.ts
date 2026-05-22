@@ -22,9 +22,11 @@ export interface StairState {
 }
 
 export interface ConcreteState {
-  length: number; // inches
-  width: number; // inches
-  depth: number; // inches
+  shape: 'slab' | 'round';
+  length: number; // inches — slab length
+  width: number; // inches — slab width
+  depth: number; // inches — slab thickness OR round-column height
+  diameter: number; // inches — round-column diameter
   count: number;
   wastePct: number;
   bagSize: BagSize;
@@ -135,9 +137,11 @@ export const STAIR_DEFAULTS: StairState = {
 };
 
 export const CONCRETE_DEFAULTS: ConcreteState = {
+  shape: 'slab',
   length: 240, // 20'
   width: 120, // 10'
-  depth: 4, // 4" — depth defaults to inches in the UI
+  depth: 4, // 4" slab thickness — auto-swaps to 48" footing height in round mode
+  diameter: 12, // 12" — a common sonotube footing diameter
   count: 1,
   wastePct: 5, // industry-standard starting allowance
   bagSize: 80,

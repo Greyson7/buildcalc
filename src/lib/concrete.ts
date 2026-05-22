@@ -7,9 +7,11 @@
 export type BagSize = 40 | 50 | 60 | 80;
 
 export interface ConcreteInput {
-  length: number; // inches
-  width: number; // inches
-  depth: number; // inches (thickness)
+  shape: 'slab' | 'round';
+  length: number; // inches (slab)
+  width: number; // inches (slab)
+  depth: number; // inches — slab thickness or round-column height
+  diameter: number; // inches (round)
   /** Quantity of identical pours (e.g. 6 footings). */
   count: number;
   /** Extra ordered for spillage / over-excavation, percent (e.g. 10). */
@@ -56,16 +58,26 @@ const EMPTY: ConcreteResult = {
 
 /** Compute concrete volume, bag count and live material cost. */
 export function calculateConcrete(input: ConcreteInput): ConcreteResult {
-  const { length, width, depth, bagSize } = input;
+  const { shape, length, width, depth, diameter, bagSize } = input;
   const count = Math.max(1, Math.floor(input.count || 1));
   const wastePct = Math.max(0, input.wastePct || 0);
 
-  if (!(length > 0) || !(width > 0) || !(depth > 0)) {
-    return { ...EMPTY, bagSize };
+  let cubicFeet: number;
+  if (shape === 'round') {
+    // Round footing / column / sonotube — cylinder volume.
+    if (!(diameter > 0) || !(depth > 0)) {
+      return { ...EMPTY, bagSize };
+    }
+    // π × r² × h (in³) ÷ 1728 → ft³
+    const radius = diameter / 2;
+    cubicFeet = ((Math.PI * radius * radius * depth) / 1728) * count;
+  } else {
+    if (!(length > 0) || !(width > 0) || !(depth > 0)) {
+      return { ...EMPTY, bagSize };
+    }
+    // in³ → ft³ (÷1728) → yd³ (÷27)
+    cubicFeet = ((length * width * depth) / 1728) * count;
   }
-
-  // in³ → ft³ (÷1728) → yd³ (÷27)
-  const cubicFeet = ((length * width * depth) / 1728) * count;
   const cubicYardsNet = cubicFeet / 27;
   const factor = 1 + wastePct / 100;
   const cubicYards = cubicYardsNet * factor;

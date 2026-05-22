@@ -21,6 +21,10 @@ const STICKY_TOP = 'calc(56px + var(--safe-top))';
 
 const PLAN_UNITS: LengthUnit[] = ['ft', 'in', 'yd'];
 const DEPTH_UNITS: LengthUnit[] = ['in', 'ft'];
+const SHAPE_OPTIONS = [
+  { label: 'Slab / Footing', value: 'slab' as const },
+  { label: 'Round Column', value: 'round' as const },
+];
 const BAG_OPTIONS = [
   { label: '60 lb', value: 60 as BagSize },
   { label: '80 lb', value: 80 as BagSize },
@@ -59,6 +63,7 @@ export function ConcreteCalculator() {
   const [lengthUnit, setLengthUnit] = useState<LengthUnit>('ft');
   const [widthUnit, setWidthUnit] = useState<LengthUnit>('ft');
   const [depthUnit, setDepthUnit] = useState<LengthUnit>('in');
+  const [diameterUnit, setDiameterUnit] = useState<LengthUnit>('in');
 
   // Analytics — first module of the session, and a one-time "Calculate" event.
   useEffect(() => trackFirstModule('Concrete'), []);
@@ -95,9 +100,11 @@ export function ConcreteCalculator() {
           style={{ top: STICKY_TOP }}
         >
           <ConcreteDiagram
+            shape={concrete.shape}
             lengthIn={concrete.length}
             widthIn={concrete.width}
             depthIn={concrete.depth}
+            diameterIn={concrete.diameter}
             result={result}
           />
         </div>
@@ -106,37 +113,87 @@ export function ConcreteCalculator() {
         <div className="space-y-4 lg:order-1">
           {!touched && <StarterHint />}
           <section className="card space-y-5 p-4">
-            <UnitField
-              label="Length"
-              valueInches={concrete.length}
-              unit={lengthUnit}
-              units={PLAN_UNITS}
-              onValueChange={(v) => updateConcrete({ length: v })}
-              onUnitChange={setLengthUnit}
+            <Segmented
+              label="Shape"
+              options={SHAPE_OPTIONS}
+              value={concrete.shape}
+              onChange={(v) => {
+                // Auto-swap a slab-thickness depth for a footing-height depth
+                // when the user toggles to round (and back), so the result
+                // stays in a sensible range instead of asking for a 4" column
+                // or a four-foot-thick slab.
+                const patch: Partial<typeof concrete> = { shape: v };
+                if (v === 'round' && concrete.depth < 12) patch.depth = 48;
+                if (v === 'slab' && concrete.depth > 12) patch.depth = 4;
+                updateConcrete(patch);
+              }}
             />
-            <UnitField
-              label="Width"
-              valueInches={concrete.width}
-              unit={widthUnit}
-              units={PLAN_UNITS}
-              onValueChange={(v) => updateConcrete({ width: v })}
-              onUnitChange={setWidthUnit}
-            />
-            <UnitField
-              label="Depth / Thickness"
-              valueInches={concrete.depth}
-              unit={depthUnit}
-              units={DEPTH_UNITS}
-              onValueChange={(v) => updateConcrete({ depth: v })}
-              onUnitChange={setDepthUnit}
-            />
+            {concrete.shape === 'slab' ? (
+              <>
+                <UnitField
+                  label="Length"
+                  valueInches={concrete.length}
+                  unit={lengthUnit}
+                  units={PLAN_UNITS}
+                  onValueChange={(v) => updateConcrete({ length: v })}
+                  onUnitChange={setLengthUnit}
+                />
+                <UnitField
+                  label="Width"
+                  valueInches={concrete.width}
+                  unit={widthUnit}
+                  units={PLAN_UNITS}
+                  onValueChange={(v) => updateConcrete({ width: v })}
+                  onUnitChange={setWidthUnit}
+                />
+                <UnitField
+                  label="Depth / Thickness"
+                  valueInches={concrete.depth}
+                  unit={depthUnit}
+                  units={DEPTH_UNITS}
+                  onValueChange={(v) => updateConcrete({ depth: v })}
+                  onUnitChange={setDepthUnit}
+                />
+              </>
+            ) : (
+              <>
+                <UnitField
+                  label="Diameter"
+                  valueInches={concrete.diameter}
+                  unit={diameterUnit}
+                  units={DEPTH_UNITS}
+                  onValueChange={(v) => updateConcrete({ diameter: v })}
+                  onUnitChange={setDiameterUnit}
+                />
+                <UnitField
+                  label="Column Height"
+                  valueInches={concrete.depth}
+                  unit={depthUnit}
+                  units={DEPTH_UNITS}
+                  onValueChange={(v) => updateConcrete({ depth: v })}
+                  onUnitChange={setDepthUnit}
+                />
+              </>
+            )}
             <Stepper
-              label="Identical Pours"
+              label={
+                concrete.shape === 'round'
+                  ? 'Identical Footings'
+                  : 'Identical Pours'
+              }
               value={concrete.count}
               min={1}
               max={99}
               onChange={(v) => updateConcrete({ count: v })}
-              suffix={concrete.count === 1 ? 'pour' : 'pours'}
+              suffix={
+                concrete.shape === 'round'
+                  ? concrete.count === 1
+                    ? 'footing'
+                    : 'footings'
+                  : concrete.count === 1
+                    ? 'pour'
+                    : 'pours'
+              }
             />
 
             {/* Waste factor — quick presets plus a slider for custom values */}

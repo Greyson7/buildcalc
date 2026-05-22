@@ -5,9 +5,11 @@ import type { ConcreteResult } from '@/lib/concrete';
 import { formatFeetInches } from '@/lib/imperial';
 
 /*
- * Oblique-projection slab/footing preview. Dimensions are clamped so the box
- * always reads as a solid even for a thin slab; the chips carry the exact
- * numbers. Re-renders live; framer-motion runs the entrance only.
+ * Oblique slab/footing preview when in slab mode, and an oblique cylinder
+ * when in round-column mode. Dimensions are clamped so the shape always
+ * reads as a solid even for a thin slab or a stubby footing; the chips
+ * carry the exact numbers. Re-renders live; framer-motion runs the entrance
+ * only.
  */
 
 const VW = 380;
@@ -48,16 +50,180 @@ function Chip({
 }
 
 export function ConcreteDiagram({
+  shape,
   lengthIn,
   widthIn,
   depthIn,
+  diameterIn,
   result,
 }: {
+  shape: 'slab' | 'round';
   lengthIn: number;
   widthIn: number;
   depthIn: number;
+  diameterIn: number;
   result: ConcreteResult;
 }) {
+  // ===== Round column / sonotube =====
+  if (shape === 'round') {
+    if (!(diameterIn > 0) || !(depthIn > 0)) {
+      return (
+        <div className="card grid h-[220px] place-items-center px-6 text-center">
+          <p className="text-sm text-ink-faint">
+            Enter a diameter and column height to preview the pour.
+          </p>
+        </div>
+      );
+    }
+
+    // Scale the cylinder so a tall column or a fat puck both read clearly.
+    const maxDim = Math.max(diameterIn, depthIn);
+    const dPx = Math.max(56, Math.min(150, (diameterIn / maxDim) * 140));
+    const hPx = Math.max(60, Math.min(170, (depthIn / maxDim) * 170));
+    const rx = dPx / 2;
+    // Perspective squash for the elliptical caps.
+    const ry = Math.max(6, rx * 0.32);
+    const cx = VW / 2;
+    const ytop = 30 + ry;
+    const ybot = ytop + hPx;
+
+    return (
+      <motion.div
+        className="card overflow-hidden"
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: 'easeOut' }}
+      >
+        <div className="flex items-center justify-between border-b border-line px-4 py-2.5">
+          <h2 className="text-sm font-bold">Pour Preview</h2>
+          <span className="text-xs font-semibold text-ink-faint">
+            {result.bagSize} lb · {result.bags} bags
+          </span>
+        </div>
+
+        <svg
+          viewBox={`0 0 ${VW} ${VH}`}
+          className="w-full"
+          role="img"
+          aria-label={`Round concrete column, ${formatFeetInches(
+            diameterIn,
+          )} diameter and ${formatFeetInches(depthIn)} tall.`}
+        >
+          <defs>
+            <marker
+              id="cc-arrow"
+              markerWidth="8"
+              markerHeight="8"
+              refX="4"
+              refY="4"
+              orient="auto"
+            >
+              <path d="M1 1 L7 4 L1 7 Z" fill="#8b97a8" />
+            </marker>
+          </defs>
+
+          {/* Cylinder body fill */}
+          <rect
+            x={cx - rx}
+            y={ytop}
+            width={dPx}
+            height={hPx}
+            fill="#ff7a1a"
+            fillOpacity="0.16"
+          />
+          {/* Side edges */}
+          <line
+            x1={cx - rx}
+            y1={ytop}
+            x2={cx - rx}
+            y2={ybot}
+            stroke="#ff7a1a"
+            strokeWidth="1.8"
+          />
+          <line
+            x1={cx + rx}
+            y1={ytop}
+            x2={cx + rx}
+            y2={ybot}
+            stroke="#ff7a1a"
+            strokeWidth="1.8"
+          />
+          {/* Bottom — hidden back arc (dashed), then visible front arc */}
+          <path
+            d={`M ${cx - rx} ${ybot} A ${rx} ${ry} 0 0 1 ${cx + rx} ${ybot}`}
+            fill="none"
+            stroke="#ff7a1a"
+            strokeOpacity="0.35"
+            strokeWidth="1.2"
+            strokeDasharray="3 3"
+          />
+          <path
+            d={`M ${cx - rx} ${ybot} A ${rx} ${ry} 0 0 0 ${cx + rx} ${ybot}`}
+            fill="none"
+            stroke="#ff7a1a"
+            strokeWidth="1.8"
+          />
+          {/* Top opening */}
+          <ellipse
+            cx={cx}
+            cy={ytop}
+            rx={rx}
+            ry={ry}
+            fill="#ff7a1a"
+            fillOpacity="0.30"
+            stroke="#ff7a1a"
+            strokeWidth="1.8"
+          />
+
+          {/* Volume chip on the column body */}
+          <Chip
+            cx={cx}
+            cy={ytop + hPx * 0.55}
+            text={`${result.cubicYards.toFixed(2)} yd³`}
+            tone="brand"
+          />
+
+          {/* Diameter dimension — below the column */}
+          <line
+            x1={cx - rx}
+            y1={ybot + ry + 14}
+            x2={cx + rx}
+            y2={ybot + ry + 14}
+            stroke="#8b97a8"
+            strokeWidth="1.4"
+            markerStart="url(#cc-arrow)"
+            markerEnd="url(#cc-arrow)"
+          />
+          <Chip
+            cx={cx}
+            cy={ybot + ry + 14}
+            text={formatFeetInches(diameterIn)}
+            tone="dim"
+          />
+
+          {/* Height dimension — left margin */}
+          <line
+            x1={cx - rx - 24}
+            y1={ytop}
+            x2={cx - rx - 24}
+            y2={ybot}
+            stroke="#8b97a8"
+            strokeWidth="1.4"
+            markerStart="url(#cc-arrow)"
+            markerEnd="url(#cc-arrow)"
+          />
+          <Chip
+            cx={cx - rx - 24}
+            cy={(ytop + ybot) / 2}
+            text={formatFeetInches(depthIn)}
+            tone="dim"
+          />
+        </svg>
+      </motion.div>
+    );
+  }
+
+  // ===== Slab / footing (original oblique projection) =====
   if (!(lengthIn > 0 && widthIn > 0 && depthIn > 0)) {
     return (
       <div className="card grid h-[220px] place-items-center px-6 text-center">

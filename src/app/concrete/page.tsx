@@ -4,14 +4,14 @@ import { SiteFooter } from '@/components/SiteFooter';
 import { ConcreteCalculator } from './ConcreteCalculator';
 
 export const metadata: Metadata = {
-  title: 'Concrete Calculator — Cubic Yards & Bags',
+  title: 'Concrete Calculator — Slabs, Round Footings & Bags',
   description:
-    'Free concrete calculator: cubic yards, 60 lb and 80 lb bag counts, waste factor and live cost for slabs and footings. Mixed-unit input, works offline.',
+    'Free concrete calculator: cubic yards, 60 and 80 lb bag counts and live cost for slabs, footings and round sonotube columns. Mixed-unit input, works offline.',
   alternates: { canonical: '/concrete/' },
   openGraph: {
-    title: 'Concrete Calculator — Cubic Yards & Bags · BuildCalc',
+    title: 'Concrete Calculator — Slabs, Round Footings & Bags · BuildCalc',
     description:
-      'Cubic yards, bag counts, waste factor and live cost for slabs and footings.',
+      'Cubic yards and bag counts for slabs, footings and round sonotube columns.',
     url: '/concrete/',
     images: ['/og-image.png'],
   },
@@ -42,6 +42,10 @@ const FAQ: QA[] = [
     q: 'How do I estimate concrete for multiple footings?',
     a: 'Enter one footing’s dimensions, then set the pour count to the number of identical footings. The calculator multiplies the volume, bag count and cost across all of them at once.',
   },
+  {
+    q: 'How do I calculate concrete for a sonotube or round column?',
+    a: 'Switch the shape to Round Column and enter the diameter and column height. BuildCalc uses the cylinder volume — pi × radius squared × height — and converts to cubic yards and bag count just like a slab. Common sonotube diameters are 8, 10 and 12 inches; a four-foot-deep 12-inch footing takes about 0.12 cubic yards of concrete, or roughly 6 bags of 80 lb mix.',
+  },
 ];
 
 export default function ConcretePage() {
@@ -56,10 +60,12 @@ export default function ConcretePage() {
           </h2>
           <div className="mt-2 space-y-2 text-sm leading-relaxed text-ink-dim">
             <p>
-              The concrete calculator finds how much concrete a slab, footing or
-              pad needs. It multiplies length, width and depth to get volume in
-              cubic feet, then converts to cubic yards — the unit ready-mix is
-              ordered in — by dividing by 27.
+              The concrete calculator finds how much concrete a slab, footing,
+              pad or round column needs. For slabs it multiplies length, width
+              and depth to get volume in cubic feet; for round footings and
+              sonotubes it uses pi × radius squared × height. Either way it
+              converts to cubic yards — the unit ready-mix is ordered in — by
+              dividing by 27.
             </p>
             <p>
               You can mix units freely: enter a slab as 20 feet long and 4
