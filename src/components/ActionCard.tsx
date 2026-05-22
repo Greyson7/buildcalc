@@ -1,4 +1,8 @@
+'use client';
+
 import type { ReactNode } from 'react';
+
+import { trackAffiliateClick } from '@/lib/analytics';
 
 /**
  * ActionCard — the monetization surface at the bottom of every module.
@@ -8,6 +12,11 @@ import type { ReactNode } from 'react';
  * link is `rel="sponsored"` and sits under a clear affiliate disclosure.
  *
  * To swap a product, change a ToolItem's `url` — see lib/affiliate.ts.
+ *
+ * Each link fires a Plausible "Affiliate Click" event (see lib/analytics.ts)
+ * tagged with the host `module` and product name — this is the site's
+ * primary conversion event. Analytics is a no-op offline, so the outbound
+ * navigation is never blocked or delayed.
  */
 
 export interface ToolItem {
@@ -18,7 +27,14 @@ export interface ToolItem {
   icon: ReactNode;
 }
 
-export function ActionCard({ items }: { items: ToolItem[] }) {
+export function ActionCard({
+  module,
+  items,
+}: {
+  /** Calculator this card sits in — tags the "Affiliate Click" event. */
+  module: string;
+  items: ToolItem[];
+}) {
   return (
     <section className="card p-4">
       <h3 className="text-sm font-bold">Recommended Tools</h3>
@@ -33,6 +49,7 @@ export function ActionCard({ items }: { items: ToolItem[] }) {
             href={t.url}
             target="_blank"
             rel="sponsored noopener noreferrer"
+            onClick={() => trackAffiliateClick(module, t.name)}
             className="tap flex flex-col items-center gap-1.5 rounded-2xl border border-line bg-surface-2 p-3 text-center active:bg-surface-3"
           >
             <span className="text-brand">{t.icon}</span>

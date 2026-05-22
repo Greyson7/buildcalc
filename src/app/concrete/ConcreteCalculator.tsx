@@ -272,7 +272,7 @@ export function ConcreteCalculator() {
 
       {/* Monetization surface */}
       <div className="mt-4">
-        <ActionCard items={CONCRETE_TOOLS} />
+        <ActionCard module="Concrete" items={CONCRETE_TOOLS} />
       </div>
 
       <p className="mt-4 px-1 text-xs text-ink-faint">

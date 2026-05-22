@@ -45,3 +45,13 @@ export function trackFirstModule(module: string): void {
 export function trackCalculate(module: string): void {
   track('Calculate', { module });
 }
+
+/**
+ * Record a click on an outbound affiliate ("Recommended Tools") link — the
+ * site's primary conversion event. `module` is the calculator it was clicked
+ * from and `product` is the tool's display name, so Plausible can break the
+ * "Affiliate Click" goal down by both.
+ */
+export function trackAffiliateClick(module: string, product: string): void {
+  track('Affiliate Click', { module, product });
+}

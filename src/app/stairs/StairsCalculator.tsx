@@ -230,7 +230,7 @@ export function StairsCalculator() {
 
       {/* Monetization surface */}
       <div className="mt-4">
-        <ActionCard items={STAIR_TOOLS} />
+        <ActionCard module="Stairs" items={STAIR_TOOLS} />
       </div>
 
       <p className="mt-4 px-1 text-xs text-ink-faint">

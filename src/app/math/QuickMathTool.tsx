@@ -75,7 +75,7 @@ export function QuickMathTool() {
       </div>
 
       <div className="mt-4">
-        <ActionCard items={MATH_TOOLS} />
+        <ActionCard module="Quick Math" items={MATH_TOOLS} />
       </div>
     </div>
   );
