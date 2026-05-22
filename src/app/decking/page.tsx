@@ -6,7 +6,7 @@ import { DeckingCalculator } from './DeckingCalculator';
 export const metadata: Metadata = {
   title: 'Decking Calculator — Deck Boards, Joists & Screws',
   description:
-    'Free decking calculator: deck board count, joist count, linear feet and screws from your deck size, board width and joist spacing. Works offline.',
+    'Free decking calculator: deck board count, joists, linear feet and screws for rectangular and L-shaped decks. Add multiple sections, set board width and joist spacing. Works offline.',
   alternates: { canonical: '/decking/' },
   openGraph: {
     title: 'Decking Calculator — Deck Boards, Joists & Screws · BuildCalc',
@@ -42,6 +42,10 @@ const FAQ: QA[] = [
     q: 'How much extra decking should I buy for waste?',
     a: 'A waste factor of about 10 percent is normal for decking. It covers end cuts, the occasional warped or split board, and offcuts that are too short to use. Decks with angles, picture-frame borders or diagonal boards need more — lean toward 15 percent.',
   },
+  {
+    q: 'How do I calculate an L-shaped deck?',
+    a: 'Break the L into two rectangles and use the Add Section button to enter each one separately. BuildCalc sums the deck boards, joists and screws across every section. Note that on a real L-shape some joists may overlap at the inside corner — the joist total here is on the conservative side, since each section is treated as if it were framed on its own.',
+  },
 ];
 
 export default function DeckingPage() {
@@ -57,10 +61,11 @@ export default function DeckingPage() {
           <div className="mt-2 space-y-2 text-sm leading-relaxed text-ink-dim">
             <p>
               BuildCalc&apos;s decking calculator turns your deck size into a
-              board and joist take-off. It divides the deck width by the board
-              width plus its gap to find how many rows of decking you need,
-              multiplies by the deck length for the total run, and converts
-              that — with a waste factor — into whole boards to buy.
+              board and joist take-off. For each section you add it divides
+              the width by the board width plus its gap to find how many rows
+              of decking you need, multiplies by the section length for the
+              total run, sums every section, and converts the result — with
+              your waste factor — into whole boards to buy.
             </p>
             <p>
               Joists run across the width, spaced on-center along the length, so

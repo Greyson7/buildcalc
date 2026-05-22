@@ -89,6 +89,27 @@ export function DeckingCalculator() {
       trackCalculate('Decking');
     }
   };
+  const updateSection = (
+    i: number,
+    patch: Partial<{ length: number; width: number }>,
+  ) => {
+    const sections = decking.sections.map((s, idx) =>
+      idx === i ? { ...s, ...patch } : s,
+    );
+    updateDecking({ sections });
+  };
+  const addSection = () => {
+    if (decking.sections.length >= 6) return;
+    updateDecking({
+      sections: [...decking.sections, { length: 144, width: 144 }],
+    });
+  };
+  const removeSection = (i: number) => {
+    if (decking.sections.length <= 1) return;
+    updateDecking({
+      sections: decking.sections.filter((_, idx) => idx !== i),
+    });
+  };
 
   const result = useMemo(() => calculateDecking(decking), [decking]);
 
@@ -109,34 +130,62 @@ export function DeckingCalculator() {
           className="sticky z-10 bg-surface-0 pb-4 pt-2 lg:order-2 lg:pb-0 lg:pt-0"
           style={{ top: STICKY_TOP }}
         >
-          <DeckingDiagram result={result} />
+          <DeckingDiagram sections={decking.sections} result={result} />
         </div>
 
         {/* Inputs */}
         <div className="space-y-4 lg:order-1">
           {!touched && <StarterHint />}
-          <section className="card space-y-5 p-4">
+          <section className="card space-y-3 p-4">
             <p className="text-xs leading-relaxed text-ink-dim">
-              <span className="font-bold text-ink">Deck length</span> runs the
-              way the boards lay; joists run across the{' '}
-              <span className="font-bold text-ink">width</span>.
+              <span className="font-bold text-ink">Length</span> runs the way
+              the boards lay; joists run across the{' '}
+              <span className="font-bold text-ink">width</span>. For an
+              L-shape or any compound deck, add another section.
             </p>
-            <UnitField
-              label="Deck Length"
-              valueInches={decking.length}
-              unit={lengthUnit}
-              units={PLAN_UNITS}
-              onValueChange={(v) => updateDecking({ length: v })}
-              onUnitChange={setLengthUnit}
-            />
-            <UnitField
-              label="Deck Width"
-              valueInches={decking.width}
-              unit={widthUnit}
-              units={PLAN_UNITS}
-              onValueChange={(v) => updateDecking({ width: v })}
-              onUnitChange={setWidthUnit}
-            />
+            {decking.sections.map((s, i) => (
+              <div
+                key={i}
+                className="space-y-4 rounded-2xl bg-surface-2 p-3.5"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-semibold uppercase tracking-[0.08em] text-ink-faint">
+                    Section {i + 1}
+                  </span>
+                  {decking.sections.length > 1 && (
+                    <button
+                      type="button"
+                      onClick={() => removeSection(i)}
+                      className="tap text-xs font-semibold text-ink-dim active:text-bad"
+                      aria-label={`Remove section ${i + 1}`}
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
+                <UnitField
+                  label="Length"
+                  valueInches={s.length}
+                  unit={lengthUnit}
+                  units={PLAN_UNITS}
+                  onValueChange={(v) => updateSection(i, { length: v })}
+                  onUnitChange={setLengthUnit}
+                />
+                <UnitField
+                  label="Width"
+                  valueInches={s.width}
+                  unit={widthUnit}
+                  units={PLAN_UNITS}
+                  onValueChange={(v) => updateSection(i, { width: v })}
+                  onUnitChange={setWidthUnit}
+                />
+              </div>
+            ))}
+            {decking.sections.length < 6 && (
+              <Button variant="ghost" fullWidth onClick={addSection}>
+                + Add Section
+              </Button>
+            )}
           </section>
 
           <section className="card space-y-5 p-4">

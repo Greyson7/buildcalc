@@ -42,9 +42,14 @@ export interface RoofingState {
   pricePerSquare: number | null;
 }
 
+export interface DeckSection {
+  length: number; // inches — boards run this way
+  width: number; // inches — perpendicular to the boards
+}
+
 export interface DeckingState {
-  length: number; // inches — deck length (boards run this way)
-  width: number; // inches — deck width
+  /** One section for a rectangle, multiple for L / T / U shapes. */
+  sections: DeckSection[];
   boardWidth: number; // inches — deck board face width
   boardGap: number; // inches — gap between boards
   boardLength: number; // inches — length of boards purchased
@@ -158,8 +163,7 @@ export const ROOFING_DEFAULTS: RoofingState = {
 };
 
 export const DECKING_DEFAULTS: DeckingState = {
-  length: 192, // 16'
-  width: 144, // 12'
+  sections: [{ length: 192, width: 144 }], // a single 16' x 12' rectangle
   boardWidth: 5.5, // a nominal 6" deck board is 5-1/2" wide
   boardGap: 0.1875, // 3/16" spacing
   boardLength: 192, // 16' boards
@@ -267,12 +271,36 @@ export const useCalculatorStore = create<CalculatorStore>()(
       // default instead of coming back undefined from older saved state.
       merge: (persisted, current) => {
         const p = (persisted ?? {}) as Partial<CalculatorStore>;
+        // Decking grew from a single rectangle (length, width) to a sections
+        // array, so lift any legacy persisted length/width into a single first
+        // section. Returning users keep their saved deck instead of losing it.
+        const legacy = p.decking as
+          | (Partial<DeckingState> & { length?: number; width?: number })
+          | undefined;
+        let mergedDecking: DeckingState = { ...current.decking };
+        if (legacy) {
+          if (Array.isArray(legacy.sections)) {
+            mergedDecking = { ...mergedDecking, ...legacy };
+          } else if (
+            typeof legacy.length === 'number' &&
+            typeof legacy.width === 'number'
+          ) {
+            const { length, width, ...rest } = legacy;
+            mergedDecking = {
+              ...mergedDecking,
+              ...rest,
+              sections: [{ length, width }],
+            };
+          } else {
+            mergedDecking = { ...mergedDecking, ...legacy };
+          }
+        }
         return {
           ...current,
           stairs: { ...current.stairs, ...(p.stairs ?? {}) },
           concrete: { ...current.concrete, ...(p.concrete ?? {}) },
           roofing: { ...current.roofing, ...(p.roofing ?? {}) },
-          decking: { ...current.decking, ...(p.decking ?? {}) },
+          decking: mergedDecking,
           gravel: { ...current.gravel, ...(p.gravel ?? {}) },
           paint: { ...current.paint, ...(p.paint ?? {}) },
           drywall: { ...current.drywall, ...(p.drywall ?? {}) },
