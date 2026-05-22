@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { Faq, type QA } from '@/components/Faq';
 import { SiteFooter } from '@/components/SiteFooter';
 import { ConcreteCalculator } from './ConcreteCalculator';
@@ -85,6 +86,21 @@ export default function ConcretePage() {
           <div className="mt-3">
             <Faq items={FAQ} />
           </div>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-extrabold tracking-tight">Guides</h2>
+          <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-ink-dim">
+            <li>
+              <Link
+                href="/how-many-bags-of-concrete-for-a-10x10-slab/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How many bags of concrete for a 10×10 slab?
+              </Link>{' '}
+              — 4-inch standard, with the math and a 3/4/6-inch comparison.
+            </li>
+          </ul>
         </section>
       </div>
 
