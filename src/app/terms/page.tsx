@@ -83,7 +83,7 @@ const SECTIONS: { h: string; p: string[] }[] = [
   {
     h: '12. Governing Law',
     p: [
-      `These Terms are governed by the laws of the State of [Your State], United States, without regard to its conflict-of-law principles. Any dispute arising from these Terms or the Service will be subject to the exclusive jurisdiction of the state and federal courts located in [Your State].`,
+      `These Terms are governed by the laws of the State of Florida, United States, without regard to its conflict-of-law principles. Any dispute arising from these Terms or the Service will be subject to the exclusive jurisdiction of the state and federal courts located in Florida.`,
     ],
   },
   {
