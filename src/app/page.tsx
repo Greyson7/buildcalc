@@ -10,6 +10,7 @@ import {
   DrywallIcon,
   GravelIcon,
   QuickMathIcon,
+  RakeIcon,
   RollerIcon,
   RoofIcon,
   StairsIcon,
@@ -71,6 +72,12 @@ const MODULES = [
     title: 'Paint Calculator',
     desc: 'Gallons to paint a room, doors and windows subtracted.',
     Icon: RollerIcon,
+  },
+  {
+    href: '/mulch',
+    title: 'Mulch Calculator',
+    desc: 'Cubic yards and bags of mulch for any flower bed or garden.',
+    Icon: RakeIcon,
   },
 ];
 

@@ -86,6 +86,16 @@ export interface AreaState {
   count: number; // identical areas
 }
 
+export interface MulchState {
+  length: number; // inches
+  width: number; // inches
+  depth: number; // inches
+  wastePct: number;
+  bagSize: number; // cubic feet per bag (2 cu ft retail, 3 cu ft jumbo)
+  pricePerYard: number | null;
+  pricePerBag: number | null;
+}
+
 interface CalculatorStore {
   stairs: StairState;
   concrete: ConcreteState;
@@ -95,6 +105,7 @@ interface CalculatorStore {
   paint: PaintState;
   drywall: DrywallState;
   area: AreaState;
+  mulch: MulchState;
   setStairs: (patch: Partial<StairState>) => void;
   setConcrete: (patch: Partial<ConcreteState>) => void;
   setRoofing: (patch: Partial<RoofingState>) => void;
@@ -103,6 +114,7 @@ interface CalculatorStore {
   setPaint: (patch: Partial<PaintState>) => void;
   setDrywall: (patch: Partial<DrywallState>) => void;
   setArea: (patch: Partial<AreaState>) => void;
+  setMulch: (patch: Partial<MulchState>) => void;
   resetStairs: () => void;
   resetConcrete: () => void;
   resetRoofing: () => void;
@@ -111,6 +123,7 @@ interface CalculatorStore {
   resetPaint: () => void;
   resetDrywall: () => void;
   resetArea: () => void;
+  resetMulch: () => void;
 }
 
 export const STAIR_DEFAULTS: StairState = {
@@ -186,6 +199,16 @@ export const AREA_DEFAULTS: AreaState = {
   count: 1,
 };
 
+export const MULCH_DEFAULTS: MulchState = {
+  length: 240, // 20'
+  width: 120, // 10'
+  depth: 3, // 3" — typical mulch depth (2–4")
+  wastePct: 5,
+  bagSize: 2, // 2 cu ft — standard retail bag
+  pricePerYard: null,
+  pricePerBag: null,
+};
+
 // localStorage is unavailable during the static build — fall back to a no-op.
 const safeStorage = createJSONStorage(() =>
   typeof window !== 'undefined'
@@ -208,6 +231,7 @@ export const useCalculatorStore = create<CalculatorStore>()(
       paint: { ...PAINT_DEFAULTS },
       drywall: { ...DRYWALL_DEFAULTS },
       area: { ...AREA_DEFAULTS },
+      mulch: { ...MULCH_DEFAULTS },
       setStairs: (patch) => set((s) => ({ stairs: { ...s.stairs, ...patch } })),
       setConcrete: (patch) =>
         set((s) => ({ concrete: { ...s.concrete, ...patch } })),
@@ -220,6 +244,7 @@ export const useCalculatorStore = create<CalculatorStore>()(
       setDrywall: (patch) =>
         set((s) => ({ drywall: { ...s.drywall, ...patch } })),
       setArea: (patch) => set((s) => ({ area: { ...s.area, ...patch } })),
+      setMulch: (patch) => set((s) => ({ mulch: { ...s.mulch, ...patch } })),
       resetStairs: () => set({ stairs: { ...STAIR_DEFAULTS } }),
       resetConcrete: () => set({ concrete: { ...CONCRETE_DEFAULTS } }),
       resetRoofing: () => set({ roofing: { ...ROOFING_DEFAULTS } }),
@@ -228,6 +253,7 @@ export const useCalculatorStore = create<CalculatorStore>()(
       resetPaint: () => set({ paint: { ...PAINT_DEFAULTS } }),
       resetDrywall: () => set({ drywall: { ...DRYWALL_DEFAULTS } }),
       resetArea: () => set({ area: { ...AREA_DEFAULTS } }),
+      resetMulch: () => set({ mulch: { ...MULCH_DEFAULTS } }),
     }),
     {
       name: 'buildcalc-state',
@@ -247,6 +273,7 @@ export const useCalculatorStore = create<CalculatorStore>()(
           paint: { ...current.paint, ...(p.paint ?? {}) },
           drywall: { ...current.drywall, ...(p.drywall ?? {}) },
           area: { ...current.area, ...(p.area ?? {}) },
+          mulch: { ...current.mulch, ...(p.mulch ?? {}) },
         };
       },
       // Rehydrate manually after mount (see ClientBoot) so the first client

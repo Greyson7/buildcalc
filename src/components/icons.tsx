@@ -299,6 +299,16 @@ export function DrywallIcon({ className }: IconProps) {
   );
 }
 
+export function RakeIcon({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden="true" {...stroke}>
+      <path d="M3 6h18" />
+      <path d="M6 6v3M9 6v3M12 6v3M15 6v3M18 6v3" />
+      <path d="M12 6l-3 14" />
+    </svg>
+  );
+}
+
 // --- UI glyphs ------------------------------------------------------------
 
 export function CloseIcon({ className }: IconProps) {

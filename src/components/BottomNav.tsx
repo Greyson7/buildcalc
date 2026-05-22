@@ -10,6 +10,7 @@ import {
   GravelIcon,
   HomeIcon,
   QuickMathIcon,
+  RakeIcon,
   RollerIcon,
   RoofIcon,
   StairsIcon,
@@ -26,6 +27,7 @@ const TABS = [
   { href: '/gravel', label: 'Gravel', Icon: GravelIcon },
   { href: '/drywall', label: 'Drywall', Icon: DrywallIcon },
   { href: '/paint', label: 'Paint', Icon: RollerIcon },
+  { href: '/mulch', label: 'Mulch', Icon: RakeIcon },
 ] as const;
 
 /** Strip a trailing slash so `/stairs/` matches the `/stairs` tab href. */

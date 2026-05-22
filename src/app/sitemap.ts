@@ -18,6 +18,7 @@ const ROUTES: { path: string; priority: number }[] = [
   { path: '/gravel/', priority: 0.8 },
   { path: '/drywall/', priority: 0.8 },
   { path: '/paint/', priority: 0.8 },
+  { path: '/mulch/', priority: 0.8 },
   { path: '/terms/', priority: 0.3 },
   { path: '/privacy/', priority: 0.3 },
 ];
