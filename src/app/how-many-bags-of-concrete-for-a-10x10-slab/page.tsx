@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Faq, type QA } from '@/components/Faq';
 import { SiteFooter } from '@/components/SiteFooter';
+import { StickerWelcome } from '@/components/StickerWelcome';
 
 const ROUTE = '/how-many-bags-of-concrete-for-a-10x10-slab/';
 const TITLE = 'How Many Bags of Concrete for a 10x10 Slab?';
@@ -69,6 +70,11 @@ export default function ConcreteBagsGuidePage() {
   return (
     <>
       <article className="space-y-7">
+        <StickerWelcome
+          href="/concrete/"
+          buttonLabel="Calculate for your slab"
+          description="The example below is a 10′ × 10′ × 4″ slab. Tap here for any other size, depth or shape — including round footings and sonotube columns."
+        />
         <header>
           <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-ink-faint">
             BuildCalc Guides · Concrete

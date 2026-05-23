@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Faq, type QA } from '@/components/Faq';
 import { SiteFooter } from '@/components/SiteFooter';
+import { StickerWelcome } from '@/components/StickerWelcome';
 
 const ROUTE = '/how-much-paint-for-a-12x12-room/';
 const TITLE = 'How Much Paint for a 12x12 Room?';
@@ -70,6 +71,11 @@ export default function PaintRoomGuidePage() {
   return (
     <>
       <article className="space-y-7">
+        <StickerWelcome
+          href="/paint/"
+          buttonLabel="Calculate for your room"
+          description="The example below is a 12′ × 12′ room with 8′ ceilings. Tap here for any room size, ceiling height and number of doors and windows."
+        />
         <header>
           <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-ink-faint">
             BuildCalc Guides · Paint

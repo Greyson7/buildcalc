@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Faq, type QA } from '@/components/Faq';
 import { SiteFooter } from '@/components/SiteFooter';
+import { StickerWelcome } from '@/components/StickerWelcome';
 
 const ROUTE = '/how-to-calculate-stair-stringers/';
 const TITLE = 'How to Calculate Stair Stringers (With IRC Code Rules)';
@@ -62,6 +63,11 @@ export default function StairStringersGuidePage() {
   return (
     <>
       <article className="space-y-7">
+        <StickerWelcome
+          href="/stairs/"
+          buttonLabel="Calculate for your stairs"
+          description="The example below is a 9 ft floor-to-floor rise. Tap here for any total rise — the calculator runs IRC code checks live as you type."
+        />
         <header>
           <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-ink-faint">
             BuildCalc Guides · Stairs
