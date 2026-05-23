@@ -302,6 +302,15 @@ export default function StairStringersGuidePage() {
               </Link>{' '}
               — finishing the basement at the bottom of the stairs.
             </li>
+            <li>
+              <Link
+                href="/how-many-bundles-of-shingles-for-1000-sq-ft/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How many bundles of shingles for 1,000 sq ft?
+              </Link>{' '}
+              — exterior stairs and the porch roof above them.
+            </li>
           </ul>
         </section>
 

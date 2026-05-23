@@ -276,6 +276,15 @@ export default function PaintRoomGuidePage() {
               </Link>{' '}
               — for the basement or addition you are painting next.
             </li>
+            <li>
+              <Link
+                href="/how-many-cubic-yards-of-mulch-for-1000-sq-ft/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How many cubic yards of mulch for 1,000 sq ft?
+              </Link>{' '}
+              — exterior projects start with the beds along the foundation.
+            </li>
           </ul>
         </section>
 

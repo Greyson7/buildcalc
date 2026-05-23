@@ -279,6 +279,15 @@ export default function ConcreteBagsGuidePage() {
             </li>
             <li>
               <Link
+                href="/how-many-bags-of-concrete-for-a-fence-post/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How many bags of concrete for a fence post?
+              </Link>{' '}
+              — cylinder math for round post holes.
+            </li>
+            <li>
+              <Link
                 href="/how-much-paint-for-a-12x12-room/"
                 className="font-semibold text-brand-light underline-offset-2 hover:underline"
               >
