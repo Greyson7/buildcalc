@@ -75,15 +75,6 @@ export default function MulchPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-extrabold tracking-tight">
-            Mulch calculator FAQ
-          </h2>
-          <div className="mt-3">
-            <Faq items={FAQ} />
-          </div>
-        </section>
-
-        <section>
           <h2 className="text-lg font-extrabold tracking-tight">Guides</h2>
           <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-ink-dim">
             <li>
@@ -96,6 +87,15 @@ export default function MulchPage() {
               — math, a depth table and the bulk-vs-bagged decision.
             </li>
           </ul>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-extrabold tracking-tight">
+            Mulch calculator FAQ
+          </h2>
+          <div className="mt-3">
+            <Faq items={FAQ} />
+          </div>
         </section>
       </div>
 

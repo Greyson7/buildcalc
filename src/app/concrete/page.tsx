@@ -80,15 +80,6 @@ export default function ConcretePage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-extrabold tracking-tight">
-            Concrete calculator FAQ
-          </h2>
-          <div className="mt-3">
-            <Faq items={FAQ} />
-          </div>
-        </section>
-
-        <section>
           <h2 className="text-lg font-extrabold tracking-tight">Guides</h2>
           <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-ink-dim">
             <li>
@@ -110,6 +101,15 @@ export default function ConcretePage() {
               — cylinder math for round post holes, by hole size.
             </li>
           </ul>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-extrabold tracking-tight">
+            Concrete calculator FAQ
+          </h2>
+          <div className="mt-3">
+            <Faq items={FAQ} />
+          </div>
         </section>
       </div>
 

@@ -75,15 +75,6 @@ export default function RoofingPage() {
         </section>
 
         <section>
-          <h2 className="text-lg font-extrabold tracking-tight">
-            Roofing calculator FAQ
-          </h2>
-          <div className="mt-3">
-            <Faq items={FAQ} />
-          </div>
-        </section>
-
-        <section>
           <h2 className="text-lg font-extrabold tracking-tight">Guides</h2>
           <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-ink-dim">
             <li>
@@ -96,6 +87,15 @@ export default function RoofingPage() {
               — math, a table by shingle type, and what else to buy with them.
             </li>
           </ul>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-extrabold tracking-tight">
+            Roofing calculator FAQ
+          </h2>
+          <div className="mt-3">
+            <Faq items={FAQ} />
+          </div>
         </section>
       </div>
 
