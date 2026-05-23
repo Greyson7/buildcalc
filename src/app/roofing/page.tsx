@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { Faq, type QA } from '@/components/Faq';
 import { SiteFooter } from '@/components/SiteFooter';
 import { RoofingCalculator } from './RoofingCalculator';
@@ -80,6 +81,21 @@ export default function RoofingPage() {
           <div className="mt-3">
             <Faq items={FAQ} />
           </div>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-extrabold tracking-tight">Guides</h2>
+          <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-ink-dim">
+            <li>
+              <Link
+                href="/how-many-bundles-of-shingles-for-1000-sq-ft/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How many bundles of shingles for 1,000 sq ft?
+              </Link>{' '}
+              — math, a table by shingle type, and what else to buy with them.
+            </li>
+          </ul>
         </section>
       </div>
 
