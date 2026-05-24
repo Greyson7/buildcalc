@@ -9,7 +9,7 @@ import { join } from 'node:path';
 const PUBLIC = join(process.cwd(), 'public');
 const ICONS = join(PUBLIC, 'icons');
 
-/** A bold stepped-staircase silhouette in the brand gradient. */
+/** Bold "+" cut out of a rounded brand-orange tile — calculator-forward mark. */
 const svg = (bg, rounded) => `
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
   <defs>
@@ -20,11 +20,11 @@ const svg = (bg, rounded) => `
   </defs>
   ${
     rounded
-      ? `<rect width="512" height="512" rx="116" fill="${bg}"/>`
-      : `<rect width="512" height="512" fill="${bg}"/>`
+      ? `<rect width="512" height="512" rx="116" fill="${bg}"/>
+         <rect x="64" y="64" width="384" height="384" rx="76" fill="url(#grad)"/>`
+      : `<rect width="512" height="512" fill="url(#grad)"/>`
   }
-  <path fill="url(#grad)" d="M116 396 L116 324 L188 324 L188 252 L260 252 L260 180 L332 180 L332 108 L404 108 L404 396 Z"/>
-  <rect x="116" y="404" width="288" height="20" rx="10" fill="#3b9eff"/>
+  <path fill="${bg}" d="M216 104 H296 V216 H408 V296 H296 V408 H216 V296 H104 V216 H216 Z"/>
 </svg>`;
 
 const targets = [
@@ -80,9 +80,9 @@ const ogSvg = `
     </linearGradient>
   </defs>
   <rect width="1200" height="630" fill="#0c0f14"/>
-  <g transform="translate(600 138) scale(0.42) translate(-260 -266)">
-    <path fill="url(#og-grad)" d="M116 396 L116 324 L188 324 L188 252 L260 252 L260 180 L332 180 L332 108 L404 108 L404 396 Z"/>
-    <rect x="116" y="404" width="288" height="20" rx="10" fill="#3b9eff"/>
+  <g transform="translate(600 138) scale(0.42) translate(-260 -256)">
+    <rect x="64" y="64" width="384" height="384" rx="76" fill="url(#og-grad)"/>
+    <path fill="#0c0f14" d="M216 104 H296 V216 H408 V296 H296 V408 H216 V296 H104 V216 H216 Z"/>
   </g>
   <text x="600" y="382" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="128" font-weight="bold" fill="#f3f5f8">BuildCalc</text>
   <text x="600" y="460" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="bold" fill="#ff7a1a">Free Construction Calculators</text>

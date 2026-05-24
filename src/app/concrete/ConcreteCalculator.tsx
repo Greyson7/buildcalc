@@ -9,6 +9,7 @@ import { useCalculatorStore } from '@/store/useCalculatorStore';
 import { ActionCard } from '@/components/ActionCard';
 import { ConcreteDiagram } from '@/components/ConcreteDiagram';
 import { StarterHint } from '@/components/StarterHint';
+import { WaitlistCTA } from '@/components/WaitlistCTA';
 import { BucketIcon, LevelIcon, TrowelIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
 import { NumberField } from '@/components/ui/NumberField';
@@ -334,6 +335,10 @@ export function ConcreteCalculator() {
       {/* Monetization surface */}
       <div className="mt-4">
         <ActionCard module="Concrete" items={CONCRETE_TOOLS} />
+      </div>
+
+      <div className="mt-4">
+        <WaitlistCTA source="concrete" />
       </div>
 
       <p className="mt-4 px-1 text-xs text-ink-faint">

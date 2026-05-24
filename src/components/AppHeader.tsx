@@ -15,7 +15,7 @@ export function AppHeader() {
       <div className="mx-auto flex h-14 max-w-3xl items-center justify-between px-4">
         <div className="flex items-center gap-2.5">
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-surface-2 text-brand">
-            <BrandMark className="h-5 w-5" />
+            <BrandMark className="h-7 w-7" />
           </span>
           <div className="leading-tight">
             <div className="text-[15px] font-extrabold tracking-tight">

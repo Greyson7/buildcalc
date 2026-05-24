@@ -9,6 +9,7 @@ import { useCalculatorStore } from '@/store/useCalculatorStore';
 import { ActionCard } from '@/components/ActionCard';
 import { StairDiagram } from '@/components/StairDiagram';
 import { StarterHint } from '@/components/StarterHint';
+import { WaitlistCTA } from '@/components/WaitlistCTA';
 import { ClampIcon, SawIcon, SquareIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
 import { FractionalInput } from '@/components/ui/FractionalInput';
@@ -235,6 +236,10 @@ export function StairsCalculator() {
       {/* Monetization surface */}
       <div className="mt-4">
         <ActionCard module="Stairs" items={STAIR_TOOLS} />
+      </div>
+
+      <div className="mt-4">
+        <WaitlistCTA source="stairs" />
       </div>
 
       <p className="mt-4 px-1 text-xs text-ink-faint">

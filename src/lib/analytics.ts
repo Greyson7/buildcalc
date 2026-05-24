@@ -55,3 +55,16 @@ export function trackCalculate(module: string): void {
 export function trackAffiliateClick(module: string, product: string): void {
   track('Affiliate Click', { module, product });
 }
+
+/** Fired when a visitor clicks the "Join Pro waitlist" CTA from a calculator. */
+export function trackWaitlistClick(source: string): void {
+  track('Waitlist Click', { source });
+}
+
+/** Fired when the waitlist form is successfully submitted. */
+export function trackWaitlistSubmit(features: string[]): void {
+  track('Waitlist Submit', {
+    features: features.length ? features.join(',') : 'none',
+    count: String(features.length),
+  });
+}

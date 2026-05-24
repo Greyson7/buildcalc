@@ -2,13 +2,13 @@
 
 type IconProps = { className?: string };
 
-/** Solid stepped-staircase brand glyph (matches the PWA icon). */
+/** Bold plus glyph — matches the PWA icon's calculator-forward mark. */
 export function BrandMark({ className }: IconProps) {
   return (
     <svg viewBox="0 0 512 512" className={className} aria-hidden="true">
       <path
         fill="currentColor"
-        d="M116 396V324h72v-72h72v-72h72v-72h72v288z"
+        d="M216 104 H296 V216 H408 V296 H296 V408 H216 V296 H104 V216 H216 Z"
       />
     </svg>
   );
