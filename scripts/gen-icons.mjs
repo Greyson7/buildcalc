@@ -9,7 +9,7 @@ import { join } from 'node:path';
 const PUBLIC = join(process.cwd(), 'public');
 const ICONS = join(PUBLIC, 'icons');
 
-/** Bold "+" cut out of a rounded brand-orange tile — calculator-forward mark. */
+/** Stacked masonry courses with a small "+" — construction + calculator mark. */
 const svg = (bg, rounded) => `
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
   <defs>
@@ -24,7 +24,13 @@ const svg = (bg, rounded) => `
          <rect x="64" y="64" width="384" height="384" rx="76" fill="url(#grad)"/>`
       : `<rect width="512" height="512" fill="url(#grad)"/>`
   }
-  <path fill="${bg}" d="M216 104 H296 V216 H408 V296 H296 V408 H216 V296 H104 V216 H216 Z"/>
+  <g fill="${bg}">
+    <rect x="112" y="320" width="288" height="64" rx="10"/>
+    <rect x="80" y="240" width="160" height="64" rx="10"/>
+    <rect x="256" y="240" width="176" height="64" rx="10"/>
+    <rect x="112" y="160" width="288" height="64" rx="10"/>
+    <path d="M240 96 H272 V128 H304 V160 H272 V192 H240 V160 H208 V128 H240 Z"/>
+  </g>
 </svg>`;
 
 const targets = [
@@ -82,7 +88,13 @@ const ogSvg = `
   <rect width="1200" height="630" fill="#0c0f14"/>
   <g transform="translate(600 138) scale(0.42) translate(-260 -256)">
     <rect x="64" y="64" width="384" height="384" rx="76" fill="url(#og-grad)"/>
-    <path fill="#0c0f14" d="M216 104 H296 V216 H408 V296 H296 V408 H216 V296 H104 V216 H216 Z"/>
+    <g fill="#0c0f14">
+      <rect x="112" y="320" width="288" height="64" rx="10"/>
+      <rect x="80" y="240" width="160" height="64" rx="10"/>
+      <rect x="256" y="240" width="176" height="64" rx="10"/>
+      <rect x="112" y="160" width="288" height="64" rx="10"/>
+      <path d="M240 96 H272 V128 H304 V160 H272 V192 H240 V160 H208 V128 H240 Z"/>
+    </g>
   </g>
   <text x="600" y="382" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="128" font-weight="bold" fill="#f3f5f8">BuildCalc</text>
   <text x="600" y="460" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="42" font-weight="bold" fill="#ff7a1a">Free Construction Calculators</text>

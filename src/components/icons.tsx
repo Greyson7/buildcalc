@@ -2,14 +2,17 @@
 
 type IconProps = { className?: string };
 
-/** Bold plus glyph — matches the PWA icon's calculator-forward mark. */
+/** Stacked masonry courses with a small "+" — construction + calculator. */
 export function BrandMark({ className }: IconProps) {
   return (
     <svg viewBox="0 0 512 512" className={className} aria-hidden="true">
-      <path
-        fill="currentColor"
-        d="M216 104 H296 V216 H408 V296 H296 V408 H216 V296 H104 V216 H216 Z"
-      />
+      <g fill="currentColor">
+        <rect x="112" y="320" width="288" height="64" rx="10" />
+        <rect x="80" y="240" width="160" height="64" rx="10" />
+        <rect x="256" y="240" width="176" height="64" rx="10" />
+        <rect x="112" y="160" width="288" height="64" rx="10" />
+        <path d="M240 96 H272 V128 H304 V160 H272 V192 H240 V160 H208 V128 H240 Z" />
+      </g>
     </svg>
   );
 }
