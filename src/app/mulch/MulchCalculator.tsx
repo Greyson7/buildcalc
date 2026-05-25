@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { formatCurrency } from '@/lib/concrete';
-import type { LengthUnit } from '@/lib/imperial';
 import { calculateMulch } from '@/lib/mulch';
 import { trackCalculate, trackFirstModule } from '@/lib/analytics';
 import { amazon } from '@/lib/affiliate';
@@ -12,17 +11,14 @@ import { MulchDiagram } from '@/components/MulchDiagram';
 import { StarterHint } from '@/components/StarterHint';
 import { ChalkLineIcon, RakeIcon, TrowelIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
+import { FractionalInput } from '@/components/ui/FractionalInput';
 import { NumberField } from '@/components/ui/NumberField';
 import { Segmented } from '@/components/ui/Segmented';
 import { SliderField } from '@/components/ui/SliderField';
 import { SummaryCard, SummaryRow } from '@/components/ui/SummaryCard';
-import { UnitField } from '@/components/ui/UnitField';
 
 // Sticky offset: pin flush below the 56px header (+ device safe-area inset).
 const STICKY_TOP = 'calc(56px + var(--safe-top))';
-
-const PLAN_UNITS: LengthUnit[] = ['ft', 'in', 'yd'];
-const DEPTH_UNITS: LengthUnit[] = ['in', 'ft'];
 
 const BAG_OPTIONS = [
   { label: '2 cu ft', value: 2 },
@@ -56,11 +52,6 @@ export function MulchCalculator() {
   const mulch = useCalculatorStore((s) => s.mulch);
   const setMulch = useCalculatorStore((s) => s.setMulch);
   const resetMulch = useCalculatorStore((s) => s.resetMulch);
-
-  // Display units are a view concern — kept local; values persist as inches.
-  const [lengthUnit, setLengthUnit] = useState<LengthUnit>('ft');
-  const [widthUnit, setWidthUnit] = useState<LengthUnit>('ft');
-  const [depthUnit, setDepthUnit] = useState<LengthUnit>('in');
 
   // Analytics — first module of the session, and a one-time "Calculate" event.
   useEffect(() => trackFirstModule('Mulch'), []);
@@ -113,29 +104,20 @@ export function MulchCalculator() {
               <span className="font-bold text-ink">depth</span> of mulch — 2 to
               4 inches is typical.
             </p>
-            <UnitField
+            <FractionalInput
               label="Bed Length"
               valueInches={mulch.length}
-              unit={lengthUnit}
-              units={PLAN_UNITS}
-              onValueChange={(v) => updateMulch({ length: v })}
-              onUnitChange={setLengthUnit}
+              onChange={(v) => updateMulch({ length: v })}
             />
-            <UnitField
+            <FractionalInput
               label="Bed Width"
               valueInches={mulch.width}
-              unit={widthUnit}
-              units={PLAN_UNITS}
-              onValueChange={(v) => updateMulch({ width: v })}
-              onUnitChange={setWidthUnit}
+              onChange={(v) => updateMulch({ width: v })}
             />
-            <UnitField
+            <FractionalInput
               label="Mulch Depth"
               valueInches={mulch.depth}
-              unit={depthUnit}
-              units={DEPTH_UNITS}
-              onValueChange={(v) => updateMulch({ depth: v })}
-              onUnitChange={setDepthUnit}
+              onChange={(v) => updateMulch({ depth: v })}
             />
             <SliderField
               label="Waste Factor"

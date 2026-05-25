@@ -29,3 +29,9 @@ yarn-error.log*
 # local tooling config
 .claude
 preview/
+
+# private financials
+/finances
+
+# private marketing playbooks + outreach trackers
+/weekly-tasks

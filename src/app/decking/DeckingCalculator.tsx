@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { formatCurrency } from '@/lib/concrete';
 import { calculateDecking } from '@/lib/decking';
-import type { LengthUnit } from '@/lib/imperial';
 import { trackCalculate, trackFirstModule } from '@/lib/analytics';
 import { amazon } from '@/lib/affiliate';
 import { useCalculatorStore } from '@/store/useCalculatorStore';
@@ -12,16 +11,14 @@ import { DeckingDiagram } from '@/components/DeckingDiagram';
 import { StarterHint } from '@/components/StarterHint';
 import { DrillIcon, ScrewIcon, SquareIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
+import { FractionalInput } from '@/components/ui/FractionalInput';
 import { NumberField } from '@/components/ui/NumberField';
 import { Segmented } from '@/components/ui/Segmented';
 import { SliderField } from '@/components/ui/SliderField';
 import { SummaryCard, SummaryRow } from '@/components/ui/SummaryCard';
-import { UnitField } from '@/components/ui/UnitField';
 
 // Sticky offset: pin flush below the 56px header (+ device safe-area inset).
 const STICKY_TOP = 'calc(56px + var(--safe-top))';
-
-const PLAN_UNITS: LengthUnit[] = ['ft', 'in', 'yd'];
 
 const BOARD_WIDTHS = [
   { label: '5-1/2"', value: 5.5 },
@@ -72,10 +69,6 @@ export function DeckingCalculator() {
   const decking = useCalculatorStore((s) => s.decking);
   const setDecking = useCalculatorStore((s) => s.setDecking);
   const resetDecking = useCalculatorStore((s) => s.resetDecking);
-
-  // Display units are a view concern — kept local; values persist as inches.
-  const [lengthUnit, setLengthUnit] = useState<LengthUnit>('ft');
-  const [widthUnit, setWidthUnit] = useState<LengthUnit>('ft');
 
   // Analytics — first module of the session, and a one-time "Calculate" event.
   useEffect(() => trackFirstModule('Decking'), []);
@@ -163,21 +156,15 @@ export function DeckingCalculator() {
                     </button>
                   )}
                 </div>
-                <UnitField
+                <FractionalInput
                   label="Length"
                   valueInches={s.length}
-                  unit={lengthUnit}
-                  units={PLAN_UNITS}
-                  onValueChange={(v) => updateSection(i, { length: v })}
-                  onUnitChange={setLengthUnit}
+                  onChange={(v) => updateSection(i, { length: v })}
                 />
-                <UnitField
+                <FractionalInput
                   label="Width"
                   valueInches={s.width}
-                  unit={widthUnit}
-                  units={PLAN_UNITS}
-                  onValueChange={(v) => updateSection(i, { width: v })}
-                  onUnitChange={setWidthUnit}
+                  onChange={(v) => updateSection(i, { width: v })}
                 />
               </div>
             ))}

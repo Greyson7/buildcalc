@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { formatCurrency } from '@/lib/concrete';
 import { calculateDrywall } from '@/lib/drywall';
-import type { LengthUnit } from '@/lib/imperial';
 import { trackCalculate, trackFirstModule } from '@/lib/analytics';
 import { amazon } from '@/lib/affiliate';
 import { useCalculatorStore } from '@/store/useCalculatorStore';
@@ -12,16 +11,14 @@ import { DrywallDiagram } from '@/components/DrywallDiagram';
 import { StarterHint } from '@/components/StarterHint';
 import { DrillIcon, KnifeIcon, SquareIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
+import { FractionalInput } from '@/components/ui/FractionalInput';
 import { NumberField } from '@/components/ui/NumberField';
 import { Segmented } from '@/components/ui/Segmented';
 import { SliderField } from '@/components/ui/SliderField';
 import { SummaryCard, SummaryRow } from '@/components/ui/SummaryCard';
-import { UnitField } from '@/components/ui/UnitField';
 
 // Sticky offset: pin flush below the 56px header (+ device safe-area inset).
 const STICKY_TOP = 'calc(56px + var(--safe-top))';
-
-const PLAN_UNITS: LengthUnit[] = ['ft', 'in'];
 
 const SURFACES = [
   { label: 'Walls only', value: 'walls' },
@@ -67,11 +64,6 @@ export function DrywallCalculator() {
   const drywall = useCalculatorStore((s) => s.drywall);
   const setDrywall = useCalculatorStore((s) => s.setDrywall);
   const resetDrywall = useCalculatorStore((s) => s.resetDrywall);
-
-  // Display units are a view concern — kept local; values persist as inches.
-  const [lengthUnit, setLengthUnit] = useState<LengthUnit>('ft');
-  const [widthUnit, setWidthUnit] = useState<LengthUnit>('ft');
-  const [heightUnit, setHeightUnit] = useState<LengthUnit>('ft');
 
   // Analytics — first module of the session, and a one-time "Calculate" event.
   useEffect(() => trackFirstModule('Drywall'), []);
@@ -120,29 +112,20 @@ export function DrywallCalculator() {
               along the floor, then the ceiling height — drywall wraps all four
               walls, plus the ceiling if you include it.
             </p>
-            <UnitField
+            <FractionalInput
               label="Room Length"
               valueInches={drywall.length}
-              unit={lengthUnit}
-              units={PLAN_UNITS}
-              onValueChange={(v) => updateDrywall({ length: v })}
-              onUnitChange={setLengthUnit}
+              onChange={(v) => updateDrywall({ length: v })}
             />
-            <UnitField
+            <FractionalInput
               label="Room Width"
               valueInches={drywall.width}
-              unit={widthUnit}
-              units={PLAN_UNITS}
-              onValueChange={(v) => updateDrywall({ width: v })}
-              onUnitChange={setWidthUnit}
+              onChange={(v) => updateDrywall({ width: v })}
             />
-            <UnitField
+            <FractionalInput
               label="Ceiling Height"
               valueInches={drywall.height}
-              unit={heightUnit}
-              units={PLAN_UNITS}
-              onValueChange={(v) => updateDrywall({ height: v })}
-              onUnitChange={setHeightUnit}
+              onChange={(v) => updateDrywall({ height: v })}
             />
           </section>
 

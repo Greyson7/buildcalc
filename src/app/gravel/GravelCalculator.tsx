@@ -3,7 +3,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { formatCurrency } from '@/lib/concrete';
 import { calculateGravel } from '@/lib/gravel';
-import type { LengthUnit } from '@/lib/imperial';
 import { trackCalculate, trackFirstModule } from '@/lib/analytics';
 import { amazon } from '@/lib/affiliate';
 import { useCalculatorStore } from '@/store/useCalculatorStore';
@@ -12,16 +11,13 @@ import { GravelDiagram } from '@/components/GravelDiagram';
 import { StarterHint } from '@/components/StarterHint';
 import { BucketIcon, HammerIcon, TrowelIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
+import { FractionalInput } from '@/components/ui/FractionalInput';
 import { NumberField } from '@/components/ui/NumberField';
 import { SliderField } from '@/components/ui/SliderField';
 import { SummaryCard, SummaryRow } from '@/components/ui/SummaryCard';
-import { UnitField } from '@/components/ui/UnitField';
 
 // Sticky offset: pin flush below the 56px header (+ device safe-area inset).
 const STICKY_TOP = 'calc(56px + var(--safe-top))';
-
-const PLAN_UNITS: LengthUnit[] = ['ft', 'in', 'yd'];
-const DEPTH_UNITS: LengthUnit[] = ['in', 'ft'];
 
 // Swap a product by changing the amazon() argument (ASIN or search), or
 // drop in an industry-partner URL directly.
@@ -50,11 +46,6 @@ export function GravelCalculator() {
   const gravel = useCalculatorStore((s) => s.gravel);
   const setGravel = useCalculatorStore((s) => s.setGravel);
   const resetGravel = useCalculatorStore((s) => s.resetGravel);
-
-  // Display units are a view concern — kept local; values persist as inches.
-  const [lengthUnit, setLengthUnit] = useState<LengthUnit>('ft');
-  const [widthUnit, setWidthUnit] = useState<LengthUnit>('ft');
-  const [depthUnit, setDepthUnit] = useState<LengthUnit>('in');
 
   // Analytics — first module of the session, and a one-time "Calculate" event.
   useEffect(() => trackFirstModule('Gravel'), []);
@@ -100,29 +91,20 @@ export function GravelCalculator() {
         <div className="space-y-4 lg:order-1">
           {!touched && <StarterHint />}
           <section className="card space-y-5 p-4">
-            <UnitField
+            <FractionalInput
               label="Length"
               valueInches={gravel.length}
-              unit={lengthUnit}
-              units={PLAN_UNITS}
-              onValueChange={(v) => updateGravel({ length: v })}
-              onUnitChange={setLengthUnit}
+              onChange={(v) => updateGravel({ length: v })}
             />
-            <UnitField
+            <FractionalInput
               label="Width"
               valueInches={gravel.width}
-              unit={widthUnit}
-              units={PLAN_UNITS}
-              onValueChange={(v) => updateGravel({ width: v })}
-              onUnitChange={setWidthUnit}
+              onChange={(v) => updateGravel({ width: v })}
             />
-            <UnitField
+            <FractionalInput
               label="Depth"
               valueInches={gravel.depth}
-              unit={depthUnit}
-              units={DEPTH_UNITS}
-              onValueChange={(v) => updateGravel({ depth: v })}
-              onUnitChange={setDepthUnit}
+              onChange={(v) => updateGravel({ depth: v })}
             />
             <SliderField
               label="Waste Factor"

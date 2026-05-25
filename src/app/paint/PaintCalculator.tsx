@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { formatCurrency } from '@/lib/concrete';
-import type { LengthUnit } from '@/lib/imperial';
 import { calculatePaint } from '@/lib/paint';
 import { trackCalculate, trackFirstModule } from '@/lib/analytics';
 import { amazon } from '@/lib/affiliate';
@@ -12,16 +11,14 @@ import { PaintDiagram } from '@/components/PaintDiagram';
 import { StarterHint } from '@/components/StarterHint';
 import { BrushIcon, RollerIcon, TapeIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
+import { FractionalInput } from '@/components/ui/FractionalInput';
 import { NumberField } from '@/components/ui/NumberField';
 import { Segmented } from '@/components/ui/Segmented';
 import { Stepper } from '@/components/ui/Stepper';
 import { SummaryCard, SummaryRow } from '@/components/ui/SummaryCard';
-import { UnitField } from '@/components/ui/UnitField';
 
 // Sticky offset: pin flush below the 56px header (+ device safe-area inset).
 const STICKY_TOP = 'calc(56px + var(--safe-top))';
-
-const ROOM_UNITS: LengthUnit[] = ['ft', 'in'];
 
 // Coverage presets — a gallon of interior paint covers 350–400 sq ft per coat.
 const COVERAGE_OPTIONS = [
@@ -56,11 +53,6 @@ export function PaintCalculator() {
   const paint = useCalculatorStore((s) => s.paint);
   const setPaint = useCalculatorStore((s) => s.setPaint);
   const resetPaint = useCalculatorStore((s) => s.resetPaint);
-
-  // Display units are a view concern — kept local; values persist as inches.
-  const [lengthUnit, setLengthUnit] = useState<LengthUnit>('ft');
-  const [widthUnit, setWidthUnit] = useState<LengthUnit>('ft');
-  const [heightUnit, setHeightUnit] = useState<LengthUnit>('ft');
 
   // Analytics — first module of the session, and a one-time "Calculate" event.
   useEffect(() => trackFirstModule('Paint'), []);
@@ -111,29 +103,20 @@ export function PaintCalculator() {
               length, width and ceiling height — then set the number of coats,
               doors and windows.
             </p>
-            <UnitField
+            <FractionalInput
               label="Room Length"
               valueInches={paint.length}
-              unit={lengthUnit}
-              units={ROOM_UNITS}
-              onValueChange={(v) => updatePaint({ length: v })}
-              onUnitChange={setLengthUnit}
+              onChange={(v) => updatePaint({ length: v })}
             />
-            <UnitField
+            <FractionalInput
               label="Room Width"
               valueInches={paint.width}
-              unit={widthUnit}
-              units={ROOM_UNITS}
-              onValueChange={(v) => updatePaint({ width: v })}
-              onUnitChange={setWidthUnit}
+              onChange={(v) => updatePaint({ width: v })}
             />
-            <UnitField
+            <FractionalInput
               label="Ceiling Height"
               valueInches={paint.height}
-              unit={heightUnit}
-              units={ROOM_UNITS}
-              onValueChange={(v) => updatePaint({ height: v })}
-              onUnitChange={setHeightUnit}
+              onChange={(v) => updatePaint({ height: v })}
             />
             <Stepper
               label="Coats"

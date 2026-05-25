@@ -2,7 +2,6 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { type BagSize, calculateConcrete, formatCurrency } from '@/lib/concrete';
-import type { LengthUnit } from '@/lib/imperial';
 import { trackCalculate, trackFirstModule } from '@/lib/analytics';
 import { amazon } from '@/lib/affiliate';
 import { useCalculatorStore } from '@/store/useCalculatorStore';
@@ -12,16 +11,14 @@ import { StarterHint } from '@/components/StarterHint';
 import { WaitlistCTA } from '@/components/WaitlistCTA';
 import { BucketIcon, LevelIcon, TrowelIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
+import { FractionalInput } from '@/components/ui/FractionalInput';
 import { NumberField } from '@/components/ui/NumberField';
 import { Segmented } from '@/components/ui/Segmented';
 import { Stepper } from '@/components/ui/Stepper';
 import { SummaryCard, SummaryRow } from '@/components/ui/SummaryCard';
-import { UnitField } from '@/components/ui/UnitField';
 
 const STICKY_TOP = 'calc(56px + var(--safe-top))';
 
-const PLAN_UNITS: LengthUnit[] = ['ft', 'in', 'yd'];
-const DEPTH_UNITS: LengthUnit[] = ['in', 'ft'];
 const SHAPE_OPTIONS = [
   { label: 'Slab / Footing', value: 'slab' as const },
   { label: 'Round Column', value: 'round' as const },
@@ -59,12 +56,6 @@ export function ConcreteCalculator() {
   const concrete = useCalculatorStore((s) => s.concrete);
   const setConcrete = useCalculatorStore((s) => s.setConcrete);
   const resetConcrete = useCalculatorStore((s) => s.resetConcrete);
-
-  // Display units are a view concern — kept local; values persist as inches.
-  const [lengthUnit, setLengthUnit] = useState<LengthUnit>('ft');
-  const [widthUnit, setWidthUnit] = useState<LengthUnit>('ft');
-  const [depthUnit, setDepthUnit] = useState<LengthUnit>('in');
-  const [diameterUnit, setDiameterUnit] = useState<LengthUnit>('in');
 
   // Analytics — first module of the session, and a one-time "Calculate" event.
   useEffect(() => trackFirstModule('Concrete'), []);
@@ -131,48 +122,33 @@ export function ConcreteCalculator() {
             />
             {concrete.shape === 'slab' ? (
               <>
-                <UnitField
+                <FractionalInput
                   label="Length"
                   valueInches={concrete.length}
-                  unit={lengthUnit}
-                  units={PLAN_UNITS}
-                  onValueChange={(v) => updateConcrete({ length: v })}
-                  onUnitChange={setLengthUnit}
+                  onChange={(v) => updateConcrete({ length: v })}
                 />
-                <UnitField
+                <FractionalInput
                   label="Width"
                   valueInches={concrete.width}
-                  unit={widthUnit}
-                  units={PLAN_UNITS}
-                  onValueChange={(v) => updateConcrete({ width: v })}
-                  onUnitChange={setWidthUnit}
+                  onChange={(v) => updateConcrete({ width: v })}
                 />
-                <UnitField
+                <FractionalInput
                   label="Depth / Thickness"
                   valueInches={concrete.depth}
-                  unit={depthUnit}
-                  units={DEPTH_UNITS}
-                  onValueChange={(v) => updateConcrete({ depth: v })}
-                  onUnitChange={setDepthUnit}
+                  onChange={(v) => updateConcrete({ depth: v })}
                 />
               </>
             ) : (
               <>
-                <UnitField
+                <FractionalInput
                   label="Diameter"
                   valueInches={concrete.diameter}
-                  unit={diameterUnit}
-                  units={DEPTH_UNITS}
-                  onValueChange={(v) => updateConcrete({ diameter: v })}
-                  onUnitChange={setDiameterUnit}
+                  onChange={(v) => updateConcrete({ diameter: v })}
                 />
-                <UnitField
+                <FractionalInput
                   label="Column Height"
                   valueInches={concrete.depth}
-                  unit={depthUnit}
-                  units={DEPTH_UNITS}
-                  onValueChange={(v) => updateConcrete({ depth: v })}
-                  onUnitChange={setDepthUnit}
+                  onChange={(v) => updateConcrete({ depth: v })}
                 />
               </>
             )}

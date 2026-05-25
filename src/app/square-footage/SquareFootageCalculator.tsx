@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
-import type { LengthUnit } from '@/lib/imperial';
 import { calculateArea } from '@/lib/area';
 import { trackCalculate, trackFirstModule } from '@/lib/analytics';
 import { amazon } from '@/lib/affiliate';
@@ -11,14 +10,12 @@ import { AreaDiagram } from '@/components/AreaDiagram';
 import { StarterHint } from '@/components/StarterHint';
 import { LevelIcon, PencilIcon, RulerIcon } from '@/components/icons';
 import { Button } from '@/components/ui/Button';
+import { FractionalInput } from '@/components/ui/FractionalInput';
 import { Stepper } from '@/components/ui/Stepper';
 import { SummaryCard, SummaryRow } from '@/components/ui/SummaryCard';
-import { UnitField } from '@/components/ui/UnitField';
 
 // Sticky offset: pin flush below the 56px header (+ device safe-area inset).
 const STICKY_TOP = 'calc(56px + var(--safe-top))';
-
-const PLAN_UNITS: LengthUnit[] = ['ft', 'in', 'yd'];
 
 // Swap a product by changing the amazon() argument (ASIN or search), or
 // drop in an industry-partner URL directly.
@@ -47,10 +44,6 @@ export function SquareFootageCalculator() {
   const area = useCalculatorStore((s) => s.area);
   const setArea = useCalculatorStore((s) => s.setArea);
   const resetArea = useCalculatorStore((s) => s.resetArea);
-
-  // Display units are a view concern — kept local; values persist as inches.
-  const [lengthUnit, setLengthUnit] = useState<LengthUnit>('ft');
-  const [widthUnit, setWidthUnit] = useState<LengthUnit>('ft');
 
   // Analytics — first module of the session, and a one-time "Calculate" event.
   useEffect(() => trackFirstModule('Square Footage'), []);
@@ -104,21 +97,15 @@ export function SquareFootageCalculator() {
               </span>{' '}
               you are measuring — a room, a yard or any flat rectangle.
             </p>
-            <UnitField
+            <FractionalInput
               label="Length"
               valueInches={area.length}
-              unit={lengthUnit}
-              units={PLAN_UNITS}
-              onValueChange={(v) => updateArea({ length: v })}
-              onUnitChange={setLengthUnit}
+              onChange={(v) => updateArea({ length: v })}
             />
-            <UnitField
+            <FractionalInput
               label="Width"
               valueInches={area.width}
-              unit={widthUnit}
-              units={PLAN_UNITS}
-              onValueChange={(v) => updateArea({ width: v })}
-              onUnitChange={setWidthUnit}
+              onChange={(v) => updateArea({ width: v })}
             />
             <Stepper
               label="Identical Areas"
