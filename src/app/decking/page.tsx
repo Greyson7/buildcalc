@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { Faq, type QA } from '@/components/Faq';
 import { SiteFooter } from '@/components/SiteFooter';
 import { DeckingCalculator } from './DeckingCalculator';
@@ -75,6 +76,21 @@ export default function DeckingPage() {
               code, so size those separately.
             </p>
           </div>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-extrabold tracking-tight">Guides</h2>
+          <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-ink-dim">
+            <li>
+              <Link
+                href="/how-many-deck-screws-per-board/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How many deck screws per board?
+              </Link>{' '}
+              — 2-screws-per-joist math, by board length and joist spacing.
+            </li>
+          </ul>
         </section>
 
         <section>

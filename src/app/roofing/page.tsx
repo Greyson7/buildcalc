@@ -86,6 +86,16 @@ export default function RoofingPage() {
               </Link>{' '}
               — math, a table by shingle type, and what else to buy with them.
             </li>
+            <li>
+              <Link
+                href="/how-to-figure-roof-pitch/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How to figure roof pitch
+              </Link>{' '}
+              — rise-over-12, converting to degrees, and the pitch multiplier
+              for material take-offs.
+            </li>
           </ul>
         </section>
 

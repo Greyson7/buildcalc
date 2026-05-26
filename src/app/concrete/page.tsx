@@ -84,12 +84,102 @@ export default function ConcretePage() {
           <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-ink-dim">
             <li>
               <Link
+                href="/how-many-bags-of-concrete-in-a-yard/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How many bags of concrete are in a yard?
+              </Link>{' '}
+              — the conversion every job comes back to, for 40, 60 and 80 lb bags.
+            </li>
+            <li>
+              <Link
+                href="/how-many-bags-of-concrete-for-an-8x10-slab/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How many bags of concrete for an 8×10 slab?
+              </Link>{' '}
+              — 80 sq ft slab, 4-inch standard with a 6-inch comparison.
+            </li>
+            <li>
+              <Link
                 href="/how-many-bags-of-concrete-for-a-10x10-slab/"
                 className="font-semibold text-brand-light underline-offset-2 hover:underline"
               >
                 How many bags of concrete for a 10×10 slab?
               </Link>{' '}
               — 4-inch standard, with the math and a 3/4/6-inch comparison.
+            </li>
+            <li>
+              <Link
+                href="/how-many-bags-of-concrete-for-a-12x12-slab/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How many bags of concrete for a 12×12 slab?
+              </Link>{' '}
+              — 144 sq ft slab in 60 and 80 lb bag counts.
+            </li>
+            <li>
+              <Link
+                href="/how-many-bags-of-concrete-for-a-12x16-slab/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How many bags of concrete for a 12×16 slab?
+              </Link>{' '}
+              — 192 sq ft slab in bags and yards.
+            </li>
+            <li>
+              <Link
+                href="/how-many-bags-of-concrete-for-a-16x20-slab/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How many bags of concrete for a 16×20 slab?
+              </Link>{' '}
+              — 320 sq ft slab — where bags stop making sense vs. a truck.
+            </li>
+            <li>
+              <Link
+                href="/how-many-bags-of-concrete-for-a-20x20-slab/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How many bags of concrete for a 20×20 slab?
+              </Link>{' '}
+              — 400 sq ft slab and the bag-vs-ready-mix tipping point.
+            </li>
+            <li>
+              <Link
+                href="/how-many-bags-of-concrete-for-a-driveway/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How many bags of concrete for a driveway?
+              </Link>{' '}
+              — yards and bags for typical residential driveway sizes.
+            </li>
+            <li>
+              <Link
+                href="/how-many-bags-of-concrete-for-a-hot-tub-pad/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How many bags of concrete for a hot tub pad?
+              </Link>{' '}
+              — pad size and depth for the soak load, with the bag math.
+            </li>
+            <li>
+              <Link
+                href="/how-many-bags-of-concrete-for-a-sonotube/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How many bags of concrete for a sonotube?
+              </Link>{' '}
+              — round column volume for common 8, 10 and 12 inch tubes.
+            </li>
+            <li>
+              <Link
+                href="/how-many-bags-of-concrete-for-a-4x4-post/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How many bags of concrete for a 4×4 post?
+              </Link>{' '}
+              — post-hole math for a mailbox, fence or lamp post anchor.
             </li>
             <li>
               <Link

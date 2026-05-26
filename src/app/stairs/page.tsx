@@ -87,6 +87,16 @@ export default function StairsPage() {
               </Link>{' '}
               — math, code limits and a worked example for a 9 ft rise.
             </li>
+            <li>
+              <Link
+                href="/how-many-stair-stringers-do-i-need/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How many stair stringers do I need?
+              </Link>{' '}
+              — spacing rules by tread material (wood, composite, metal) and
+              stair width.
+            </li>
           </ul>
         </section>
 

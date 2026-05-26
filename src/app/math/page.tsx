@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { Faq, type QA } from '@/components/Faq';
 import { SiteFooter } from '@/components/SiteFooter';
 import { QuickMathTool } from './QuickMathTool';
@@ -70,6 +71,31 @@ export default function QuickMathPage() {
               millimeters to inches, and roof pitch to degrees.
             </p>
           </div>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-extrabold tracking-tight">Guides</h2>
+          <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-ink-dim">
+            <li>
+              <Link
+                href="/how-many-cubic-feet-in-a-cubic-yard/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How many cubic feet in a cubic yard?
+              </Link>{' '}
+              — the 27 cu ft conversion with worked examples for concrete,
+              mulch and gravel.
+            </li>
+            <li>
+              <Link
+                href="/how-many-square-feet-in-an-acre/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How many square feet in an acre?
+              </Link>{' '}
+              — the 43,560 conversion with lot-size examples.
+            </li>
+          </ul>
         </section>
 
         <section>

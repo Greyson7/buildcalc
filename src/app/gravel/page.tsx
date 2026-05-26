@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { Faq, type QA } from '@/components/Faq';
 import { SiteFooter } from '@/components/SiteFooter';
 import { GravelCalculator } from './GravelCalculator';
@@ -72,6 +73,21 @@ export default function GravelPage() {
               order.
             </p>
           </div>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-extrabold tracking-tight">Guides</h2>
+          <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-ink-dim">
+            <li>
+              <Link
+                href="/how-many-yards-of-gravel-for-a-driveway/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How many yards of gravel for a driveway?
+              </Link>{' '}
+              — yards and tons by driveway size at 4 and 6 inches deep.
+            </li>
+          </ul>
         </section>
 
         <section>

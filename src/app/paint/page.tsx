@@ -79,6 +79,15 @@ export default function PaintPage() {
           <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-ink-dim">
             <li>
               <Link
+                href="/how-much-paint-for-a-10x10-room/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How much paint for a 10×10 room?
+              </Link>{' '}
+              — 320 sq ft of wall in 2 coats, with the openings subtracted.
+            </li>
+            <li>
+              <Link
                 href="/how-much-paint-for-a-12x12-room/"
                 className="font-semibold text-brand-light underline-offset-2 hover:underline"
               >

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import { Faq, type QA } from '@/components/Faq';
 import { SiteFooter } from '@/components/SiteFooter';
 import { SquareFootageCalculator } from './SquareFootageCalculator';
@@ -71,6 +72,22 @@ export default function SquareFootagePage() {
               fencing take-offs.
             </p>
           </div>
+        </section>
+
+        <section>
+          <h2 className="text-lg font-extrabold tracking-tight">Guides</h2>
+          <ul className="mt-3 space-y-1.5 text-sm leading-relaxed text-ink-dim">
+            <li>
+              <Link
+                href="/how-many-square-feet-in-an-acre/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How many square feet in an acre?
+              </Link>{' '}
+              — the 43,560 conversion, lot-size examples, and a quick reference
+              table.
+            </li>
+          </ul>
         </section>
 
         <section>

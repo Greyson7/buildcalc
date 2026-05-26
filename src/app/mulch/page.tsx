@@ -86,6 +86,16 @@ export default function MulchPage() {
               </Link>{' '}
               — math, a depth table and the bulk-vs-bagged decision.
             </li>
+            <li>
+              <Link
+                href="/how-many-bags-of-mulch-in-a-yard/"
+                className="font-semibold text-brand-light underline-offset-2 hover:underline"
+              >
+                How many bags of mulch are in a yard?
+              </Link>{' '}
+              — 13.5 bags of 2 cu ft, 9 bags of 3 cu ft, with the cost
+              comparison.
+            </li>
           </ul>
         </section>
 
